@@ -8,7 +8,8 @@ Can you select a 3D object and change its color?
 <canvas id="bg"></canvas>
 <div id="scrollText">
     <div id="scrollText">
-<ul class="string-of-lights">
+<ul class="string-of-lights"><!-- ebb: animated CSS String of Lights from NetNinja!
+source in style.css  -->
 <li></li>
 <li></li>
 <li></li>
@@ -43,7 +44,7 @@ Can you select a 3D object and change its color?
 <li></li>
 <li></li>
 </ul>
-    <p>🦌🦌🦌🦌🦌🦌🦌🦌🦌🔔<span class="textmessage">Thank You, and Happy Holidays, DIGIT!</span>🔔<span class="white" style="color:white;">❄❄❄❄</span>🌟🌟🌟🌟⛄</p>
+    <p>🦌🦌🦌🦌🦌🦌🦌🦌🦌🔔<span class="textmessage">Happy Holidays, DIGIT!</span>🔔<span class="white" style="color:white;">❄❄❄❄</span>🌟🌟🌟🌟⛄</p>
 </div>
 </div>
    <section class="text">

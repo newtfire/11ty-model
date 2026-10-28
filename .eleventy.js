@@ -20,10 +20,13 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addPassthroughCopy("./_src/img/");
   eleventyConfig.addPassthroughCopy("./_src/threed-images/");
-  eleventyConfig.addNunjucksFilter(
-    "getTopicKeys",
-    require("./_src/parsekeys.js").getTopicKeys,
-  );
+  // eleventyConfig.addNunjucksFilter(
+  //   "getTopicKeys",
+  //   require("./_src/parsekeys.js").getTopicKeys,
+  // );
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/@11ty/is-land/is-land.js": "js/is-land.js",
+  });
 
   // ebb: Re-run the build when Three's main.js changes during --serve
   eleventyConfig.addWatchTarget("./_src/main.js");

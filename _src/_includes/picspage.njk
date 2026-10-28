@@ -12,18 +12,8 @@
            content="ie=edge">
      <title>{{ title }}</title>
      <link rel="stylesheet" href="css/style.css">
-    <script>
-        function toggleSection(topic) {
-            const sections = document.querySelectorAll('section.gallery');
-            sections.forEach(section => {
-                if (section.classList.contains(topic)) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
-                }
-            });
-        }
-    </script>
+     <script type="module" src="js/is-land.js"></script>
+
 </head>
 <body>
  {% include "layouts/top.html" %}
@@ -32,45 +22,38 @@
 
  <h2>{{ param }}</h2>
 
+ <p>Please press a button to choose a topical set of images. </p>
+<is-land on:visible>
+  <div id="gallery" v-scope="{ active: 'none' }">
+    <section class="pushButton">
+      <button @click="active = 'all'">all</button>
+      {% for topic, images in imagesMeta %}
+        <button @click="active = '{{ topic }}'">{{ topic }}</button>
+      {% endfor %}
+    </section>
 
+    {% for topic, images in imagesMeta %}
+      <section class="gallery {{ topic }}" v-show="active === 'all' || active === '{{ topic }}'">
+        <h2>{{ topic }}</h2>
+        <div class="flex">
+          {% for image in images %}
+            <figure>
+              <img src="{{ image.filepath }}" alt="{{ image.filename }}">
+              <figcaption>{{ image.filename }}</figcaption>
+            </figure>
+          {% endfor %}
+        </div>
+      </section>
+    {% endfor %}
+  </div>
 
-{{ iamgesMeta | dump }}
-
-
-
- <section class="gallery">
-     <h2>music</h2>
-     <div class="flex">
-         {% for item in music.music -%}
-             <figure>
-                 <img src=" {{ item.filepath }}" alt=" {{  item.filename }}"/>
-
-                 <figcaption> {{item.filename }}</figcaption>
-             </figure>
-         {% endfor -%}
-     </div>
- </section>
-
- <p>We have the following topics with images available for viewing in the gallery today. Please press a button to choose a topical set of images. </p>
-<section class="pushButton">
- {% for topic, images in imagesMeta %}
-     <button id="{{ topic }}" onclick="toggleSection('{{ topic }}')">{{ topic }}</button>
- {% endfor %}
-</section>
- {% for topic, images in imagesMeta %}
-     <section class="gallery {{ topic }}"><h1>{{ topic }}</h1>
-         <div class="flex">
-                 {% for image in images %}
-                     <figure>
-                         <img src="{{ image.filepath }}" alt="{{ image.filename }}"/>
-                         <figcaption>{{ image.filename }}</figcaption>
-                     </figure>
-                 {% endfor %}
-
-         </div>
-     </section>
- {% endfor %}
-
+  <template data-island>
+    <script type="module">
+      import { createApp } from 'https://unpkg.com/petite-vue?module'
+      createApp().mount('#gallery')
+    </script>
+  </template>
+</is-land>
 
 
  {% include  "layouts/footer.html" %}

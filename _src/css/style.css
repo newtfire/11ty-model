@@ -34,7 +34,11 @@ img#newt {
     max-width:100px;
     width:80%;}
 
-section.gallery {display:none;}
+/*
+2026-10-28 ebb: Since I'm using is-lands now, I don't need this line to keep the gallery images
+hidden until interaction.
+    section.gallery {display:none;}
+*/
 
 section.pushButton {width:30%; margin:auto; display:flex; justify-content: space-around}
 .pushButton button {
