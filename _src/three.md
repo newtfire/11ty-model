@@ -50,4 +50,4 @@ Can you select a 3D object and change its color?
      <h1>Spinning Objects in the Penn State Behrend Library</h1>
   <p>Can you select a 3D object to change its color?</p>
    </section>
-    <script type="module" src="main.js"></script>
+    <script type="module" src="assets/main.js"></script>
