@@ -12,18 +12,8 @@
            content="ie=edge">
      <title>Gallery</title>
      <link rel="stylesheet" href="css/style.css">
-    <script>
-        function toggleSection(topic) {
-            const sections = document.querySelectorAll('section.gallery');
-            sections.forEach(section => {
-                if (section.classList.contains(topic)) {
-                    section.style.display = 'block';
-                } else {
-                    section.style.display = 'none';
-                }
-            });
-        }
-    </script>
+     <script type="module" src="js/is-land.js"></script>
+
 </head>
 <body>
  <nav>
@@ -35,116 +25,101 @@
 
  <h2></h2>
 
+ <p>Please press a button to choose a topical set of images. </p>
+<is-land on:visible>
+  <div id="gallery" v-scope="{ active: 'none' }">
+    <section class="pushButton">
+      <button @click="active = 'all'">all</button>
+      
+        <button @click="active = 'animals'">animals</button>
+      
+        <button @click="active = 'music'">music</button>
+      
+        <button @click="active = 'tech'">tech</button>
+      
+    </section>
 
+    
+      <section class="gallery animals" v-show="active === 'all' || active === 'animals'">
+        <h2>animals</h2>
+        <div class="flex">
+          
+            <figure>
+              <img src="img/animals/newt-mosaic4.png" alt="newt-mosaic4">
+              <figcaption>newt-mosaic4</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/animals/puffin-habitat.jpg" alt="puffin-habitat">
+              <figcaption>puffin-habitat</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/animals/puffin1.jpg" alt="puffin1">
+              <figcaption>puffin1</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/animals/xpath-rabbit.png" alt="xpath-rabbit">
+              <figcaption>xpath-rabbit</figcaption>
+            </figure>
+          
+        </div>
+      </section>
+    
+      <section class="gallery music" v-show="active === 'all' || active === 'music'">
+        <h2>music</h2>
+        <div class="flex">
+          
+            <figure>
+              <img src="img/music/bagpipe.png" alt="bagpipe">
+              <figcaption>bagpipe</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/music/pan-flute.jpg" alt="pan-flute">
+              <figcaption>pan-flute</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/music/piano-keys.jpg" alt="piano-keys">
+              <figcaption>piano-keys</figcaption>
+            </figure>
+          
+        </div>
+      </section>
+    
+      <section class="gallery tech" v-show="active === 'all' || active === 'tech'">
+        <h2>tech</h2>
+        <div class="flex">
+          
+            <figure>
+              <img src="img/tech/DIGIT-fingerprint.png" alt="DIGIT-fingerprint">
+              <figcaption>DIGIT-fingerprint</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/tech/circuitHeart.jpg" alt="circuitHeart">
+              <figcaption>circuitHeart</figcaption>
+            </figure>
+          
+            <figure>
+              <img src="img/tech/pebbleWatch.png" alt="pebbleWatch">
+              <figcaption>pebbleWatch</figcaption>
+            </figure>
+          
+        </div>
+      </section>
+    
+  </div>
 
-
-
-
-
- <section class="gallery">
-     <h2>music</h2>
-     <div class="flex">
-         <figure>
-                 <img src=" img/music/bagpipe.png" alt=" music/bagpipe.png"/>
-
-                 <figcaption> music/bagpipe.png</figcaption>
-             </figure>
-         <figure>
-                 <img src=" img/music/pan-flute.jpg" alt=" music/pan-flute.jpg"/>
-
-                 <figcaption> music/pan-flute.jpg</figcaption>
-             </figure>
-         <figure>
-                 <img src=" img/music/piano-keys.jpg" alt=" music/piano-keys.jpg"/>
-
-                 <figcaption> music/piano-keys.jpg</figcaption>
-             </figure>
-         </div>
- </section>
-
- <p>We have the following topics with images available for viewing in the gallery today. Please press a button to choose a topical set of images. </p>
-<section class="pushButton">
- 
-     <button id="animals" onclick="toggleSection('animals')">animals</button>
- 
-     <button id="music" onclick="toggleSection('music')">music</button>
- 
-     <button id="tech" onclick="toggleSection('tech')">tech</button>
- 
-</section>
- 
-     <section class="gallery animals"><h1>animals</h1>
-         <div class="flex">
-                 
-                     <figure>
-                         <img src="img/animals/newt-mosaic4.png" alt="newt-mosaic4"/>
-                         <figcaption>newt-mosaic4</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/animals/puffin-habitat.jpg" alt="puffin-habitat"/>
-                         <figcaption>puffin-habitat</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/animals/puffin1.jpg" alt="puffin1"/>
-                         <figcaption>puffin1</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/animals/xpath-rabbit.png" alt="xpath-rabbit"/>
-                         <figcaption>xpath-rabbit</figcaption>
-                     </figure>
-                 
-
-         </div>
-     </section>
- 
-     <section class="gallery music"><h1>music</h1>
-         <div class="flex">
-                 
-                     <figure>
-                         <img src="img/music/bagpipe.png" alt="bagpipe"/>
-                         <figcaption>bagpipe</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/music/pan-flute.jpg" alt="pan-flute"/>
-                         <figcaption>pan-flute</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/music/piano-keys.jpg" alt="piano-keys"/>
-                         <figcaption>piano-keys</figcaption>
-                     </figure>
-                 
-
-         </div>
-     </section>
- 
-     <section class="gallery tech"><h1>tech</h1>
-         <div class="flex">
-                 
-                     <figure>
-                         <img src="img/tech/DIGIT-fingerprint.png" alt="DIGIT-fingerprint"/>
-                         <figcaption>DIGIT-fingerprint</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/tech/circuitHeart.jpg" alt="circuitHeart"/>
-                         <figcaption>circuitHeart</figcaption>
-                     </figure>
-                 
-                     <figure>
-                         <img src="img/tech/pebbleWatch.png" alt="pebbleWatch"/>
-                         <figcaption>pebbleWatch</figcaption>
-                     </figure>
-                 
-
-         </div>
-     </section>
- 
-
+  <template data-island>
+    <script type="module">
+      import { createApp } from 'https://unpkg.com/petite-vue?module'
+      createApp().mount('#gallery')
+    </script>
+  </template>
+</is-land>
 
 
  <hr/>
