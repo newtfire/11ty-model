@@ -2,8 +2,8 @@
 a model for developing an 11ty site
 
 11ty lets you build a site with customized templates that you organize to design your own site layouts.
-It lets you develop pages and include content with with your own layout designs. 
-Here are instructions and resources for setting up a static 11ty site on GitHub, adapted from Savannah Ricks's "behind the scenes" instructions on her [Crochet Craze](https://crochetproject.github.io/CrochetCraze/) project site. 
+It lets you develop pages and include content with with your own layout designs.
+Here are instructions and resources for setting up a static 11ty site on GitHub, adapted from Savannah Ricks's "behind the scenes" instructions on her [Crochet Craze](https://crochetproject.github.io/CrochetCraze/) project site.
 
 ## Resources
 * [11y.dev documentation](https://www.11ty.dev/)
@@ -16,12 +16,12 @@ Here are instructions and resources for setting up a static 11ty site on GitHub,
      * Your repo will now have a `package.json` file.
 1. Install 11ty by entering: `npm install @11ty/eleventy`
      * After this installs, enter an `ls` command to see the new files: You should now have a `package-lock.json` file and a folder names `node_modules`.
-     
+
 1. Make a new project for your repo in Webstorm, or open your code editor of choice. Open `package.json` and add the following commands into the “script” (carefully following its JSON structure):
 
-    * `"start": "eleventy --serve",` 
+    * `"start": "eleventy --serve",`
     * `"build": "eleventy"`
-    
+
 You'll be frequently using these commands in your terminal to develop and build your site.
 
 1. You need a good `.gitignore` file, and 11ty does not supply one of these for you. Let's create it now (or save the [.gitignore](.gitignore) in this repo to your root directory).
@@ -42,7 +42,7 @@ Thumbs.db
 .idea/
 ```
 
-1. Now, we need a JS file to manage how 11ty works with your repo. Create another "dot file" that you name `.eleventy.js` and save this, too, in your repo's root directory. 
+1. Now, we need a JS file to manage how 11ty works with your repo. Create another "dot file" that you name `.eleventy.js` and save this, too, in your repo's root directory.
 
 Insert this JavaScript code as the contents of this file:
 
@@ -60,12 +60,12 @@ module.exports = function (eleventyConfig){
 This code instructs 11ty on how to handle its site build process. We are saying that it should copy the contents of an `_src folder` (which you will create in a minute), and transfer them to a folder it controls, named `_site`. (You'll always keep your files that you're editing in `_src`, but the build process will copy them over to the publishing directory, `_site`.)
 
 
-1. Now, let's create and set up the directory where you will be developing your site contents, layout templates, and and resources to include. 
+1. Now, let's create and set up the directory where you will be developing your site contents, layout templates, and and resources to include.
 
-     1. In the root directory of your repo, create a folder directory called `_src`. 
-     1. **Inside the folder `_src`**, create a folder called `_includes`. 
-     1. **Inside the folder `_includes`**, create a file called `base.njk`  (This is a Nunjucks file, and  its name can be anything, but "base" is standard).   
-     
+     1. In the root directory of your repo, create a folder directory called `_src`.
+     1. **Inside the folder `_src`**, create a folder called `_includes`.
+     1. **Inside the folder `_includes`**, create a file called `base.njk`  (This is a Nunjucks file, and  its name can be anything, but "base" is standard).
+
 1. Open up your new `base.njk` file and add some basic HTML to this. You can work with / adapt these contents:
 
 ```
@@ -73,25 +73,25 @@ This code instructs 11ty on how to handle its site build process. We are saying 
 <html lang="en">
 <head>
      <meta charset="UTF-8">
-     <meta name="viewport" 
-           content="width=device-width, 
-           user-scalable=no, 
-           initial-scale=1.0, 
-           maximum-scale=1.0, 
+     <meta name="viewport"
+           content="width=device-width,
+           user-scalable=no,
+           initial-scale=1.0,
+           maximum-scale=1.0,
            minimum-scale=1.0">
-     <meta http-equiv="X-UA-Compatible" 
+     <meta http-equiv="X-UA-Compatible"
            content="ie=edge">
      <title></title>
 </head>
 <body>
 
     {{ content | safe }}
-    
+
 </body>
 </html>
 ```
     * `{{ content | safe }}` is where Nunjuks will pull in the rest of the content here. If there is basic HTML in the content you're working with, Nunjucks knows that it's "safe" to work with.
-    
+
 1. Now, go inside `_src` and create a file named `index.md` . (We'll start the site with a a basic markdown file.)
 
 1. At the top of the `index.md` file, insert this block of code:
@@ -107,17 +107,17 @@ The --- are called “fences” and we'll be using them a lot on your files to s
 
     * The title can be anything you like.
     * Everything within this `index.md` file is considered the "content" that is being pulled in through the Nunjucks in base.njk that you created.
-    * Go ahead and write some markdown in the body of the file, after the fences, so your page has some content. 
-    
+    * Go ahead and write some markdown in the body of the file, after the fences, so your page has some content.
+
 1. Inside `_src`, create a folder called `CSS` to store a css file you will be using throughout your site within this folder.
 
     * Add some CSS code for styling the contents of your index page (remember how markdown will convert to HTML elements). It doesn't have to be perfect, but just enough to help show us whether the CSS and index files are configuring correctly later when we build the site.
-    
+
 1. Remember you need to associate your CSS with a link line, and we'll do that in the Nunjucks layout file: Inside `base.njk`, add this reference link to your CSS file.
 
-`<link rel="stylesheet" href="file/path/to/your/css.css">`
+`<link rel="stylesheet" href="relative/file/path/to/your/css.css">`
 
-Make the path be from index.md relative to the css folder you created. 
+Make the path be from index.md **relative to the css folder you created**. You don't need or want a leading `./` in front of this path, because it'll be looking "down" from one of your built html files into the css directory that you create.
 
 1. Now, we need to edit the `.eleventy.js` file. If you were to “build” your site right now, 11ty would only be able to recognize your `index.md` file. To have 11ty recognize your `_includes`, CSS folder and its content, add the following code to your .eleventy.js:
 
@@ -134,7 +134,7 @@ Here's how the `.eleventy.js` file should look now:
 module.exports = function (eleventyConfig){
      eleventyConfig.addPassthroughCopy("_src/_includes/");
      eleventyConfig.addPassthroughCopy("./_src/css/");
-     
+
      return{
          dir: {
             input: "_src",
@@ -147,7 +147,7 @@ module.exports = function (eleventyConfig){
 
 1. Okay, let's test your site to see if it builds! Open your terminal and enter the command `npm run build`.
 
-* This is actually executing the "build" command that you added to `package.json` earlier! 
+* This is actually executing the "build" command that you added to `package.json` earlier!
 When this command is used, 11ty will look for your .eleventy.js file, discover that `_src` will be the input. It will then configure what’s directly inside `_src`, then output a folder called `_site` with the configured content.
 
 * After the command is completed, you will now see the new `_site` folder.
