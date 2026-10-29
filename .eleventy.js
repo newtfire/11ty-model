@@ -30,6 +30,9 @@ module.exports = function (eleventyConfig) {
 
   // ebb: Re-run the build when Three's main.js changes during --serve
   eleventyConfig.addWatchTarget("./_src/main.js");
+  // ebb: JUST FOR THIS MODEL REPO (not for yours:
+  // I need to ignore this from actually buildin:)
+  eleventyConfig.ignores.add("_src/sections-template/**");
 
   return {
     dir: {

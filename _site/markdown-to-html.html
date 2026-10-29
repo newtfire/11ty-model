@@ -1,0 +1,39 @@
+<h1>Markdown + HTML demo</h1>
+<p>Save this file as <code>_src/markdown-demo.md</code>, run <code>npm run start</code>, and visit <code>/markdown-demo.html</code>. Compare this page with the file's source.</p>
+<h2>1. Markdown in thirty seconds</h2>
+<p>Plain text becomes paragraphs. A blank line starts a new one.</p>
+<p><strong>Bold</strong>, <em>italic</em>, and <code>code</code> are marked with punctuation. A <a href="https://www.11ty.dev/">link</a> puts the words in square brackets and the address in parentheses.</p>
+<ul>
+<li>A list is lines that start with a dash.</li>
+<li>Order doesn't matter here.</li>
+</ul>
+<ol>
+<li>A numbered list uses numbers.</li>
+<li>The browser does the counting.</li>
+</ol>
+<h3>Headings use hash marks</h3>
+<p>One <code>#</code> is the page title, <code>##</code> is a section, and <code>###</code> is a subsection. In your guide, section files start at <code>###</code>.</p>
+<h2>2. Markdown gets turned into HTML</h2>
+<p>Everything above is shorthand. 11ty converts it to HTML before the page is built. Open your browser's inspector on a <strong>bold</strong> word and you'll see a <code>&lt;strong&gt;</code> tag.</p>
+<h2>3. HTML works inside Markdown too</h2>
+<p>Inline HTML sits in a sentence and Markdown keeps working around it. Here is a short quotation, <q>with <em>italic</em> text inside it</q>, and the italics still work.</p>
+<p>A block-level HTML element is different. The first one below leaves Markdown <em>off</em> inside it. The second leaves a blank line and turns it back on.</p>
+<h3>Block with no blank lines (Markdown stays off)</h3>
+<figure>
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='90'%3E%3Crect width='240' height='90' fill='%23cfd8e3'/%3E%3C/svg%3E" alt="A plain blue-gray rectangle standing in for a real image">
+<figcaption>Photo by *Jane Doe*, [source](https://example.com). The asterisks and link show up as raw text.</figcaption>
+</figure>
+<h3>Block with blank lines (Markdown works again)</h3>
+<figure>
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='90'%3E%3Crect width='240' height='90' fill='%23cfd8e3'/%3E%3C/svg%3E" alt="A plain blue-gray rectangle standing in for a real image">
+<figcaption>
+<p>Photo by <em>Jane Doe</em>, <a href="https://example.com">source</a>. Now the italics and the link both work.</p>
+</figcaption>
+</figure>
+<h3>The safest habit</h3>
+<p>Once you open a block-level HTML tag, write plain HTML inside it: <code>&lt;em&gt;</code> instead of <code>*</code>, and <code>&lt;a href=&quot;...&quot;&gt;</code> instead of <code>[text](...)</code>. It's a few more characters, and it works the same way every time.</p>
+<h3>One more gotcha</h3>
+<p>Four spaces of indentation turn a line into a code block. Don't indent your HTML tags.</p>
+<p><figure>
+This shows up as code, not as a figure.
+</figure></p>

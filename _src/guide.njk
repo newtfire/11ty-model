@@ -1,0 +1,33 @@
+---
+title: My Tech Issue Guide
+layout: base.njk
+permalink: guide.html
+---
+{% set sections = collections.section | sort(false, false, "data.order") %}
+
+<main>
+  <h1>{{ title }}</h1>
+
+  <nav aria-label="Guide sections">
+    <ul>
+    {% for section in sections %}
+      <li><a href="#{{ section.data.title | slugify }}">{{ section.data.title }}</a></li>
+    {% endfor %}
+    </ul>
+  </nav>
+
+  {% for section in sections %}
+  <section id="{{ section.data.title | slugify }}">
+    <h2>{{ section.data.title }}</h2>
+    {% if section.data.image %}
+    <figure>
+      <img src="{{ section.data.image }}" alt="{{ section.data.image_alt }}">
+      {% if section.data.image_credit %}
+      <figcaption>{{ section.data.image_credit | safe }}</figcaption>
+      {% endif %}
+    </figure>
+    {% endif %}
+    {{ section.templateContent | safe }}
+  </section>
+  {% endfor %}
+</main>
