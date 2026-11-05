@@ -52,7 +52,6 @@ source in style.css  -->
   <p>Can you select a 3D object to change its color?</p>
    </section>
 
-
  <!--   <script type="module" src="assets/threeScene.js"></script> -->
  <is-land on:visible>
   <template data-island>
