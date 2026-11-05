@@ -22,15 +22,15 @@ That's the whole idea. We are learning **approach 2** with island architecture i
 
 These two approaches definitely differ in performance: islands are typically faster and lighter, so you're not shipping a big JavaScript application just to display a paragraph of text. But these approaches *also* reflect two different assumptions about what a **page** is.
 
-Approach 1 treats a page as an *application*: something assembled at runtime, out of interchangeable, remixable parts. That's a genuinely powerful way to think, and it's why React-style thinking dominates a lot of professional software — apps like Gmail or Figma really are best understood as programs, not documents.
+Approach 1 treats a page as an *application*: something assembled at runtime, out of interchangeable, remixable parts. That's a good design strategy, and it's why React-style thinking dominates a lot of professional software: apps like Gmail or Figma really are best understood as programs, not documents. <span class="smaller">For those curious: Figma's user interface is built with React, and Gmail has its own Google-based JavaScript framework: we can say that they are "React-style" without calling them React.</span>
 
-Approach 2 treats a page as a *document* that occasionally has small, deliberate pockets of behavior added to it. That's closer to how the web itself was originally imagined, and it fits a design portfolio, a gallery, or a project site — where most of what you're making is content meant to be read, viewed, and navigated, and only a few interactions need to be genuinely stateful. You're not defaulting into "everything is an app"; you're choosing, piece by piece, where interactivity actually earns its keep.
+Approach 2 treats a page as a *document* that occasionally has small, deliberate pockets of behavior added to it. That's closer to how the web itself was originally imagined, and it fits a design portfolio, a gallery, or a project site, where most of what you're making is content meant to be read, viewed, and navigated, and only a few interactions need to be **stateful** (which means those interactions can be stored in memory). You're not defaulting into "everything is an app"; you're choosing, piece by piece, where interactivity actually earns its keep.
 
 Neither approach is "correct" because they're suited to different things. Knowing about both means *you get to choose deliberately* rather than by default, which is really what we're trying to teach you beyond adapting our starter code syntax and file structure.
 
 ## How an island actually works
 
-Two small tools do the work:
+Two small tools do the work: the island structure and the JavaScript that's referenced inside it.
 
 **`<is-land>`** decides *when* a region of the page wakes up. It doesn't know or care what JavaScript runs inside it. It's just a container with a timer.
 
