@@ -108,7 +108,7 @@ In `.eleventy.js`, next to your other `addPassthroughCopy` lines, add:
 ```js
 eleventyConfig.addPassthroughCopy({
   "node_modules/@11ty/is-land/is-land.js": "js/is-land.js",
-  "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.es.js"
+  "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.js"
 });
 ```
 
@@ -142,7 +142,7 @@ The markup goes in the page like normal HTML. Only the script waits inside the `
 
   <template data-island>
     <script type="module">
-      import { createApp } from '/js/petite-vue.es.js'
+      import { createApp } from 'js/petite-vue.js'
       createApp().mount('#counter')
     </script>
   </template>
@@ -199,7 +199,7 @@ Open your browser's developer tools (the Console tab) first. It usually tells yo
 
   <template data-island>
     <script type="module">
-      import { createApp } from 'js/petite-vue.es.js'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#counter')
     </script>
   </template>
