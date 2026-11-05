@@ -30,6 +30,7 @@ module.exports = function (eleventyConfig) {
   // );
   eleventyConfig.addPassthroughCopy({
     "node_modules/@11ty/is-land/is-land.js": "js/is-land.js",
+    "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.es.js",
   });
 
   // ebb: Re-run the build when Three's main.js changes during --serve

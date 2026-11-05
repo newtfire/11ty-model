@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@11ty/eleventy": "^3.1.7",
-    "@11ty/is-land": "^5.2.0",
+    "@11ty/is-land": "^5.3.0",
     "petite-vue": "^0.4.1",
     "three": "^0.186.1"
   },

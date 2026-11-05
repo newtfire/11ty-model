@@ -13,8 +13,13 @@ Plain text becomes paragraphs. A blank line starts a new one.
 
 **Bold**, *italic*, and `code` are marked with punctuation. A [link](https://www.11ty.dev/) puts the words in square brackets and the address in parentheses.
 
-- A list is lines that start with a dash.
-- Order doesn't matter here.
+* A list is lines that start with a hyphen or an asterisk
+* Order doesn't matter here.
+
+Lists can also start with a `-`
+
+- List 
+- List 
 
 1. A numbered list uses numbers.
 2. The browser does the counting.
