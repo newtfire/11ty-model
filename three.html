@@ -12,6 +12,7 @@
            content="ie=edge">
      <title>Three</title>
      <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="/js/is-land.js"></script>
 </head>
 <body>
  <nav>
@@ -20,8 +21,7 @@
 
 
  <h1>Three</h1>
-
-
+ <!-- <h2>DIGIT</h2> -->
 
     <p>Can you select a 3D object and change its color?
 <canvas id="bg"></canvas></p>
@@ -70,7 +70,13 @@ source in style.css  -->
      <h1>Spinning Objects in the Penn State Behrend Library</h1>
   <p>Can you select a 3D object to change its color?</p>
    </section>
-    <script type="module" src="assets/main.js"></script>
+ <!--   <script type="module" src="assets/threeScene.js"></script> -->
+ <is-land on:visible>
+  <template data-island>
+    <div id="scene-container"></div>
+    <script type="module" src="/assets/threeScene.js"></script>
+  </template>
+</is-land>
 
 
  <hr/>
