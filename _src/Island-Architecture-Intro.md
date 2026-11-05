@@ -188,7 +188,8 @@ Once that's comfortable, the next island introduces `v-scope` and real state: a 
 | Works locally, broken on GitHub Pages | A leading slash in `/js/...` can break on a project site. Use `js/...` instead, or ask your instructor. |
 Open your browser's developer tools (the Console tab) first. It usually tells you which file it couldn't find.
 
-### My Demo Island
+### My Demo Island Counter
+If all is well, this counter will be working!
 
 <is-land on:visible>
 
