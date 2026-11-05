@@ -6,11 +6,15 @@ const esbuild = require("esbuild");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("_src/_includes/");
   eleventyConfig.addPassthroughCopy("./_src/css/");
+  /* This is for petite-vue */
+  eleventyConfig.addPassthroughCopy({
+    "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.es.js",
+  });
   // eleventyConfig.addPassthroughCopy("./_src/main.js");
   // ebb: Replaced the "passthrough" of main.js with this esbuild step for three.js:
   eleventyConfig.on("eleventy.before", async () => {
     await esbuild.build({
-      entryPoints: ["_src/main.js"],
+      entryPoints: ["_src/threeScene.js"],
       bundle: true,
       minify: true,
       format: "esm",
@@ -29,7 +33,7 @@ module.exports = function (eleventyConfig) {
   });
 
   // ebb: Re-run the build when Three's main.js changes during --serve
-  eleventyConfig.addWatchTarget("./_src/main.js");
+  eleventyConfig.addWatchTarget("./_src/threeScene.js");
   // ebb: JUST FOR THIS MODEL REPO (not for yours:
   // I need to ignore this from actually buildin:)
   eleventyConfig.ignores.add("_src/sections-template/**");

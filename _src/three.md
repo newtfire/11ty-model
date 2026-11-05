@@ -51,4 +51,12 @@ source in style.css  -->
      <h1>Spinning Objects in the Penn State Behrend Library</h1>
   <p>Can you select a 3D object to change its color?</p>
    </section>
-    <script type="module" src="assets/main.js"></script>
+
+
+ <!--   <script type="module" src="assets/threeScene.js"></script> -->
+ <is-land on:visible>
+  <template data-island>
+    <div id="scene-container"></div>
+    <script type="module" src="/assets/threeScene.js"></script>
+  </template>
+</is-land>

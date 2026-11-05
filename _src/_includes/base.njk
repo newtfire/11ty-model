@@ -12,13 +12,13 @@
            content="ie=edge">
      <title>{{ title }}</title>
      <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="/js/is-land.js"></script>
 </head>
 <body>
  {% include "layouts/top.html" %}
 
  <h1>{{ title }}</h1>
-
-
+ <!-- <h2>{{param}}</h2> -->
 
     {{ content | safe }}
 

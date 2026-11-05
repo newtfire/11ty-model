@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport"
+           content="width=device-width,
+           user-scalable=no,
+           initial-scale=1.0,
+           maximum-scale=1.0,
+           minimum-scale=1.0">
+     <meta http-equiv="X-UA-Compatible"
+           content="ie=edge">
+     <title>Island Architecture Orientation</title>
+     <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="/js/is-land.js"></script>
+</head>
+<body>
+ <nav>
+    <a href="index.html">Home</a> | <a href="dig400.html">DIGIT 400 </a> | <a href="gallery.html">Gallery</a> | <a href="three.html">Three-D</a>
+</nav>
+
+
+ <h1>Island Architecture Orientation</h1>
+ <!-- <h2></h2> -->
+
+    <h1>Islands: A Different Way to Design an Interactive Site</h1>
+<p><em>An orientation for the part of this course where we build our site in 11ty and add interactivity with <code>&lt;is-land&gt;</code> and petite-vue.</em></p>
+<h2>Two ways to build a website</h2>
+<p>There are, broadly, two ways people build sites today that have interactive parts.</p>
+<p><strong>Approach 1: the whole site is an app.</strong> You write the entire page in JavaScript — every heading, every image, every paragraph of body text — as a tree of components. When someone visits, the browser downloads a bundle of JavaScript, runs it, and that JavaScript <em>builds</em> the page from scratch, entirely in the browser. State (the data that can change — a counter, a form value, what's currently selected) lives in that JavaScript and the page re-draws itself whenever it changes. This is how frameworks like React, Vue, or Svelte are most commonly used — you may have seen this called a &quot;single-page app,&quot; or &quot;SPA.&quot;</p>
+<p><strong>Approach 2: the site is a website, and a few parts of it wake up.</strong> Most of a page (body text, images, navigation, a gallery) never changes after it's loaded, so there is no reason to route it through JavaScript at all. It's rendered ahead of time as plain HTML. (That's what 11ty does — it builds full HTML pages from your templates and markdown, before anyone visits.) Only the <em>specific pieces</em> that actually need to remember something and react to input (like a filter control, a live form, or a Three.js scene) are wrapped in a small reserved &quot;pocket&quot; of JavaScript that &quot;wakes up&quot; independently. Those pockets are called <strong>islands</strong>. Everything <em>outside</em> an island is just HTML, the way the web has worked since the 1990s: no JavaScript is required to read the rest of the site, so that content is served without depending on the JS portions at all!</p>
+<p>That's the whole idea. We are learning <strong>approach 2</strong> with island architecture in this unit!</p>
+<h2>Why the distinction matters, not just technically</h2>
+<p>These two approaches definitely differ in performance: islands are typically faster and lighter, so you're not shipping a big JavaScript application just to display a paragraph of text. But these approaches <em>also</em> reflect two different assumptions about what a <strong>page</strong> is.</p>
+<p>Approach 1 treats a page as an <em>application</em>: something assembled at runtime, out of interchangeable, remixable parts. That's a genuinely powerful way to think, and it's why React-style thinking dominates a lot of professional software — apps like Gmail or Figma really are best understood as programs, not documents.</p>
+<p>Approach 2 treats a page as a <em>document</em> that occasionally has small, deliberate pockets of behavior added to it. That's closer to how the web itself was originally imagined, and it fits a design portfolio, a gallery, or a project site — where most of what you're making is content meant to be read, viewed, and navigated, and only a few interactions need to be genuinely stateful. You're not defaulting into &quot;everything is an app&quot;; you're choosing, piece by piece, where interactivity actually earns its keep.</p>
+<p>Neither approach is &quot;correct&quot; because they're suited to different things. Knowing about both means <em>you get to choose deliberately</em> rather than by default, which is really what we're trying to teach you beyond adapting our starter code syntax and file structure.</p>
+<h2>How an island actually works</h2>
+<p>Two small tools do the work:</p>
+<p><strong><code>&lt;is-land&gt;</code></strong> decides <em>when</em> a region of the page wakes up. It doesn't know or care what JavaScript runs inside it. It's just a container with a timer.</p>
+<pre><code class="language-html">&lt;is-land on:visible&gt;
+
+  &lt;div id=&quot;counter&quot; v-scope=&quot;{ count: 0 }&quot;&gt;
+    &lt;p&gt;Count: &lt;span v-text=&quot;count&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;button @click=&quot;count++&quot;&gt;Add one&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;template data-island&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      import { createApp } from '/js/petite-vue.es.js'
+      createApp().mount('#counter')
+    &lt;/script&gt;
+  &lt;/template&gt;
+
+&lt;/is-land&gt;
+</code></pre>
+<p>Nothing inside <code>&lt;template data-island&gt;</code> runs until the loading condition fires. Here are some properties you can set for an is-land:</p>
+<ul>
+<li><code>on:visible</code> : Nothing happens until a user scrolls this into view.</li>
+<li><code>on:idle</code> : Wait until the browser isn't busy with anything more urgent.</li>
+<li><code>on:interaction</code> : Wait until the user clicks or taps something.</li>
+<li><code>on:media</code> : Wait for a screen-size or device condition to be true.</li>
+</ul>
+<p><strong>petite-vue</strong> is what actually runs once an island wakes up. It's a very small library (only about 6 KB), and it lets us add state and reactivity directly onto existing HTML without a build step or a compiler. <strong><code>v-scope</code> marks the region controlled by petite-vue.</strong> Inside that region:</p>
+<ul>
+<li>`` displays a value, and updates automatically whenever it changes</li>
+<li><code>@click=&quot;count++&quot;</code> runs code in response to an event</li>
+<li>the values in <code>v-scope=&quot;{ ... }&quot;</code> are the <em>state</em> — the data this piece of the page remembers</li>
+</ul>
+<p>This is the same underlying idea as &quot;state&quot; in any interactive framework: it's a value the page remembers and reacts to, just written directly onto the HTML file (in this is-land) instead of being generated by JavaScript.</p>
+<h2>Reusable pieces in petite-vue</h2>
+<p>If you want the same interactive behavior in more than one place on a page, you can wrap it in a plain JavaScript function that returns an object of data and behavior:</p>
+<pre><code class="language-js">function Counter(props) {
+  return {
+    count: props.initialCount,
+    increment() {
+      this.count++
+    }
+  }
+}
+</code></pre>
+<pre><code class="language-html">&lt;div v-scope=&quot;Counter({ initialCount: 5 })&quot;&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;button @click=&quot;increment&quot;&gt;+&lt;/button&gt;
+&lt;/div&gt;
+</code></pre>
+<p>You can reuse <code>Counter(...)</code> as many times on the page as you like, and each instance keeps its own independent state. This is petite-vue's version of a &quot;component&quot;: much tinier than a full JS framework component but the same core modular idea of <strong>packaging up behavior you can re-use</strong>.</p>
+<h3>Install is-land from petite-vue</h3>
+<p>At your shell on your 11ty repository, install is-land with npm:</p>
+<pre><code>npm install @11ty/is-land petite-vue
+</code></pre>
+<p><code>is-land</code> decides <em>when</em> an island wakes up. <code>petite-vue</code> makes it react to clicks and typing. Both are added to your <code>package.json</code> automatically.</p>
+<h3>Copy the scripts into your built site with addPassthroughCopy</h3>
+<p>In <code>.eleventy.js</code>, next to your other <code>addPassthroughCopy</code> lines, add:</p>
+<pre><code class="language-js">eleventyConfig.addPassthroughCopy({
+  &quot;node_modules/@11ty/is-land/is-land.js&quot;: &quot;js/is-land.js&quot;,
+  &quot;node_modules/petite-vue/dist/petite-vue.es.js&quot;: &quot;js/petite-vue.es.js&quot;
+});
+</code></pre>
+<p>This copies each file out of <code>node_modules</code> into <code>_site/js/</code>, where a browser can load it.</p>
+<h3>Load <code>is-land</code> on your pages</h3>
+<p>If you want these to run with pages that use your base.njk layout, we need to add the
+is-lands javascript to them.</p>
+<p>Open <code>_includes/base.njk</code> and add this line inside <code>&lt;head&gt;</code>:</p>
+<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;/js/is-land.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>When your pages reach for <code>base.njk</code>, those pages now know what <code>&lt;is-land&gt;</code> means.
+(If you skip this step and your islands will never work!)</p>
+<h3>Make your first island: A Counter!</h3>
+<p>The markup goes in the page like normal HTML. Only the script waits inside the <code>&lt;template data-island&gt;</code>.</p>
+<pre><code class="language-html">&lt;is-land on:visible&gt;
+
+  &lt;div id=&quot;counter&quot; v-scope=&quot;{ count: 0 }&quot;&gt;
+    &lt;p&gt;Count: &lt;span v-text=&quot;count&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;button @click=&quot;count++&quot;&gt;Add one&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;template data-island&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      import { createApp } from '/js/petite-vue.es.js'
+      createApp().mount('#counter')
+    &lt;/script&gt;
+  &lt;/template&gt;
+
+&lt;/is-land&gt;
+</code></pre>
+<ul>
+<li>The <code>id</code> in <code>mount('#counter')</code> has to match the <code>id</code> on the element with <code>v-scope</code>.</li>
+<li>Use <code>v-text=&quot;count&quot;</code> instead of ``. Nunjucks also reads double curly braces and will try to fill them in before the browser sees them.</li>
+</ul>
+<h2>First exercise: turn your Three.js sketch into an island</h2>
+<p>Since you already have a working Three.js scene from the last unit, the very first island you build won't require learning any new syntax! This is now purely about <em>timing</em> and incorporating your three.js model into your site.</p>
+<p>Create a markdown page to host your three.js scene alongside some other content!
+Take your existing scene-setup code, completely unchanged, and wrap it in an is-land like so, adjusting to your directory structure where this will build in your 11ty site:</p>
+<pre><code class="language-html">&lt;is-land on:visible&gt;
+  &lt;template data-island&gt;
+    &lt;div id=&quot;scene-container&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot; src=&quot;/js/my-three-scene.js&quot;&gt;&lt;/script&gt;
+  &lt;/template&gt;
+&lt;/is-land&gt;
+</code></pre>
+<p>Previously on your original Three.js project repo: your scene initialized the instant the page loaded, whether or not anyone had scrolled to it.</p>
+<p>Now (when you get this running in an is-land in your 11ty site): Three.js only initializes when it's actually in the viewport. Nothing about your Three.js code really changes except this part: <em>when</em> it runs on a page in your 11ty site. This is a simple way to get a sense of what an &quot;island&quot; means before adding more petite-vue syntax on top of it.</p>
+<p>Once that's comfortable, the next island introduces <code>v-scope</code> and real state: a value that changes, on a page that reacts to it, in a completely separate island from your static content.</p>
+<h3>Troubleshooting</h3>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>404</code> for <code>is-land.js</code> or <code>petite-vue.es.js</code> in the browser console</td>
+<td>Did you save <code>.eleventy.js</code>? Restart the server.</td>
+</tr>
+<tr>
+<td>The page loads but the button does nothing</td>
+<td>Is the <code>&lt;script&gt;</code> line in <code>base.njk</code>? Does the <code>mount('#...')</code> id match?</td>
+</tr>
+<tr>
+<td>Blank or <code>undefined</code> text where a value should be</td>
+<td>Use <code>v-text</code>, not double curly braces.</td>
+</tr>
+<tr>
+<td>Works locally, broken on GitHub Pages</td>
+<td>A leading slash in <code>/js/...</code> can break on a project site. Use <code>js/...</code> instead, or ask your instructor.</td>
+</tr>
+<tr>
+<td>Open your browser's developer tools (the Console tab) first. It usually tells you which file it couldn't find.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>My Demo Island</h3>
+<is-land on:visible>
+  <div id="counter" v-scope="{ count: 0 }">
+    <p>Count: <span v-text="count"></span></p>
+    <button @click="count++">Add one</button>
+  </div>
+  <template data-island>
+    <script type="module">
+      import { createApp } from '/js/petite-vue.es.js'
+      createApp().mount('#counter')
+    </script>
+  </template>
+</is-land>
+
+
+ <hr/>
+<div id="footer">
+    <div id="bannerImage"><a href="https://newtfire.org/courses/"><img id="newt"
+        src="img/newt-mosaic4.png"
+        alt="NewtFire logo: a mosaic rendering of a firebelly newt"/></a></div>
+    <div id="title"><a href="https://newtfire.org">newtFire</a> <a href="https://github.com/newtfire">{GitHub}</a></div>
+    <div class="boilerplate"><span><strong>Maintained by: </strong> Elisa E. Beshero-Bondar
+        (eeb4 at psu.edu)   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" /></a><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a> <strong>Last modified:
+        </strong>Wednesday, 22-Mar-2023 05:28:35 UTC. <a href="https://newtfire.org/courses/firebellies.html">Powered by firebellies</a>.</span></div>
+</div>
+
+
+</body>
+</html>
