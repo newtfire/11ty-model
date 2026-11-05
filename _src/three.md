@@ -57,6 +57,6 @@ source in style.css  -->
  <is-land on:visible>
   <template data-island>
     <div id="scene-container"></div>
-    <script type="module" src="/assets/threeScene.js"></script>
+    <script type="module" src="assets/threeScene.js"></script>
   </template>
 </is-land>
