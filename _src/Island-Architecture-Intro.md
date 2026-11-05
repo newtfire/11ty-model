@@ -122,7 +122,7 @@ is-lands javascript to them.
 Open `_includes/base.njk` and add this line inside `<head>`:
 
 ```html
-<script type="module" src="/js/is-land.js"></script>
+<script type="module" src="js/is-land.js"></script>
 ```
 
 When your pages reach for `base.njk`, those pages now know what `<is-land>` means.
@@ -166,7 +166,7 @@ Take your existing scene-setup code, completely unchanged, and wrap it in an is-
 <is-land on:visible>
   <template data-island>
     <div id="scene-container"></div>
-    <script type="module" src="/js/my-three-scene.js"></script>
+    <script type="module" src="js/my-three-scene.js"></script>
   </template>
 </is-land>
 ```
@@ -199,7 +199,7 @@ Open your browser's developer tools (the Console tab) first. It usually tells yo
 
   <template data-island>
     <script type="module">
-      import { createApp } from '/js/petite-vue.es.js'
+      import { createApp } from 'js/petite-vue.es.js'
       createApp().mount('#counter')
     </script>
   </template>
