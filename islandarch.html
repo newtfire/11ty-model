@@ -96,7 +96,7 @@
 <p>In <code>.eleventy.js</code>, next to your other <code>addPassthroughCopy</code> lines, add:</p>
 <pre><code class="language-js">eleventyConfig.addPassthroughCopy({
   &quot;node_modules/@11ty/is-land/is-land.js&quot;: &quot;js/is-land.js&quot;,
-  &quot;node_modules/petite-vue/dist/petite-vue.es.js&quot;: &quot;js/petite-vue.es.js&quot;
+  &quot;node_modules/petite-vue/dist/petite-vue.es.js&quot;: &quot;js/petite-vue.js&quot;
 });
 </code></pre>
 <p>This copies each file out of <code>node_modules</code> into <code>_site/js/</code>, where a browser can load it.</p>
@@ -104,7 +104,7 @@
 <p>If you want these to run with pages that use your base.njk layout, we need to add the
 is-lands javascript to them.</p>
 <p>Open <code>_includes/base.njk</code> and add this line inside <code>&lt;head&gt;</code>:</p>
-<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;/js/is-land.js&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;js/is-land.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>When your pages reach for <code>base.njk</code>, those pages now know what <code>&lt;is-land&gt;</code> means.
 (If you skip this step and your islands will never work!)</p>
@@ -119,7 +119,7 @@ is-lands javascript to them.</p>
 
   &lt;template data-island&gt;
     &lt;script type=&quot;module&quot;&gt;
-      import { createApp } from '/js/petite-vue.es.js'
+      import { createApp } from 'js/petite-vue.js'
       createApp().mount('#counter')
     &lt;/script&gt;
   &lt;/template&gt;
@@ -137,7 +137,7 @@ Take your existing scene-setup code, completely unchanged, and wrap it in an is-
 <pre><code class="language-html">&lt;is-land on:visible&gt;
   &lt;template data-island&gt;
     &lt;div id=&quot;scene-container&quot;&gt;&lt;/div&gt;
-    &lt;script type=&quot;module&quot; src=&quot;/js/my-three-scene.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;module&quot; src=&quot;js/my-three-scene.js&quot;&gt;&lt;/script&gt;
   &lt;/template&gt;
 &lt;/is-land&gt;
 </code></pre>
@@ -183,7 +183,7 @@ Take your existing scene-setup code, completely unchanged, and wrap it in an is-
   </div>
   <template data-island>
     <script type="module">
-      import { createApp } from '/js/petite-vue.es.js'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#counter')
     </script>
   </template>
