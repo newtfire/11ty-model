@@ -6,10 +6,6 @@ const esbuild = require("esbuild");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("_src/_includes/");
   eleventyConfig.addPassthroughCopy("./_src/css/");
-  /* This is for petite-vue */
-  eleventyConfig.addPassthroughCopy({
-    "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.es.js",
-  });
   // eleventyConfig.addPassthroughCopy("./_src/main.js");
   // ebb: Replaced the "passthrough" of main.js with this esbuild step for three.js:
   eleventyConfig.on("eleventy.before", async () => {
@@ -24,10 +20,8 @@ module.exports = function (eleventyConfig) {
   });
   eleventyConfig.addPassthroughCopy("./_src/img/");
   eleventyConfig.addPassthroughCopy("./_src/threed-images/");
-  // eleventyConfig.addNunjucksFilter(
-  //   "getTopicKeys",
-  //   require("./_src/parsekeys.js").getTopicKeys,
-  // );
+
+  /* This is for petite-vue and islands */
   eleventyConfig.addPassthroughCopy({
     "node_modules/@11ty/is-land/is-land.js": "js/is-land.js",
     "node_modules/petite-vue/dist/petite-vue.es.js": "js/petite-vue.js",

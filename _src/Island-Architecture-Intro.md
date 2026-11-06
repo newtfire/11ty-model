@@ -44,7 +44,7 @@ Two small tools do the work: the island structure and the JavaScript that's refe
 
   <template data-island>
     <script type="module">
-      import { createApp } from '/js/petite-vue.es.js'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#counter')
     </script>
   </template>
@@ -142,7 +142,7 @@ The markup goes in the page like normal HTML. Only the script waits inside the `
 
   <template data-island>
     <script type="module">
-      import { createApp } from 'js/petite-vue.js'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#counter')
     </script>
   </template>
