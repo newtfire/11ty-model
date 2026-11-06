@@ -166,26 +166,40 @@ Take your existing scene-setup code, completely unchanged, and wrap it in an is-
 <td>Use <code>v-text</code>, not double curly braces.</td>
 </tr>
 <tr>
-<td>Works locally, broken on GitHub Pages</td>
-<td>A leading slash in <code>/js/...</code> can break on a project site. Use <code>js/...</code> instead, or ask your instructor.</td>
+<td>Works on localhost, broken on GitHub Pages</td>
+<td>Look for a leading slash (<code>/js/...</code>) in your paths and remove it. See the path rules below.</td>
 </tr>
 <tr>
-<td>Open your browser's developer tools (the Console tab) first. It usually tells you which file it couldn't find.</td>
-<td></td>
+<td>Console says it can't resolve <code>js/petite-vue.es.js</code></td>
+<td>An <code>import</code> path must start with <code>./</code>. Use <code>./js/petite-vue.es.js</code>.</td>
 </tr>
 </tbody>
 </table>
-<h3>My Demo Island Counter</h3>
+<p>Open your browser's developer tools (the Console and Network tabs) first. They usually tell you which file the browser couldn't find.</p>
+<h4>Wait...which path style should I use?</h4>
+<p>All of your file paths are <em>relative</em>: they point to a folder next to the page you're writing in. There are three rules.</p>
+<ul>
+<li><strong>In HTML attributes</strong> (<code>&lt;script src&gt;</code>, <code>&lt;link href&gt;</code>, <code>&lt;img src&gt;</code>), write <code>js/file.js</code>. Writing <code>./js/file.js</code> also works and means exactly the same thing. We use the shorter form in this course.</li>
+<li><strong>In a JavaScript <code>import</code></strong>, you <em>must</em> start with <code>./</code>, as in <code>import { createApp } from './js/petite-vue.es.js'</code>. Without it, the browser reads <code>js/petite-vue.es.js</code> as the name of a package and refuses to load it.</li>
+<li><strong>Never start a path with <code>/</code></strong> on a GitHub Pages project site. Your site lives at <code>username.github.io/repo-name/</code>, and a leading slash points to <code>username.github.io/</code>, outside your site.</li>
+</ul>
+<p>Both relative forms count from the page you're on. If a page ever lives inside a subfolder, you'll need <code>../</code> to climb back up (<code>../js/file.js</code>).</p>
+<h3>My Demo Island Counters</h3>
 <p>If all is well, this counter will be working!</p>
 <is-land on:visible>
-  <div id="counter" v-scope="{ count: 0 }">
+  <div id="counter1" v-scope="{ count: 5 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count++">Add one</button>
+    <button @click="count+=3">Add three!</button>
+  </div>
+  <div id="counter2" v-scope="{ count: 13 }">
+    <p>Count: <span v-text="count"></span></p>
+    <button @click="count-=3">Subtract three!</button>
   </div>
   <template data-island>
     <script type="module">
       import { createApp } from './js/petite-vue.js'
-      createApp().mount('#counter')
+      createApp().mount('#counter1')
+      createApp().mount('#counter2')
     </script>
   </template>
 </is-land>
