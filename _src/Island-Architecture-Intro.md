@@ -318,13 +318,11 @@ First a little housekeeping for your 11ty site:
 * Create a markdown page to host your three.js scene alongside some other content. Set it up with fences and a layout, (probably your base.njk)
 * You should definitely make yourself a nice navigation menu.
      * If you haven't done so already, in _src, make a layouts/ folder to nest inside your _includes folder:
-      ```
-            _src
-              |
-              _includes
-                  |
-                layouts
-      ```
+```
+_src
+  └── _includes
+        └── layouts
+```
      * Inside layouts, you can create .html files that can store your nav bar and a footer, a sidebar, whatever else you want to be able to tuck into base.njk.
      * Modify your base.njk to include your navbar (if you haven't already), and remember to keep updating that nav bar as you develop your site. Take a look at the files in my model 11ty site as a guide:
           * <https://github.com/newtfire/11ty-model/tree/main/_src/_includes>
