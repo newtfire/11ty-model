@@ -185,24 +185,43 @@ Once that's comfortable, the next island introduces `v-scope` and real state: a 
 | `404` for `is-land.js` or `petite-vue.es.js` in the browser console | Did you save `.eleventy.js`? Restart the server. |
 | The page loads but the button does nothing | Is the `<script>` line in `base.njk`? Does the `mount('#...')` id match? |
 | Blank or `undefined` text where a value should be | Use `v-text`, not double curly braces. |
-| Works locally, broken on GitHub Pages | A leading slash in `/js/...` can break on a project site. Use `js/...` instead, or ask your instructor. |
-Open your browser's developer tools (the Console tab) first. It usually tells you which file it couldn't find.
+| Works on localhost, broken on GitHub Pages | Look for a leading slash (`/js/...`) in your paths and remove it. See the path rules below. |
+| Console says it can't resolve `js/petite-vue.es.js` | An `import` path must start with `./`. Use `./js/petite-vue.es.js`. |
 
-### My Demo Island Counter
+Open your browser's developer tools (the Console and Network tabs) first. They usually tell you which file the browser couldn't find.
+
+#### Wait...which path style should I use?
+
+All of your file paths are *relative*: they point to a folder next to the page you're writing in. There are three rules.
+
+- **In HTML attributes** (`<script src>`, `<link href>`, `<img src>`), write `js/file.js`. Writing `./js/file.js` also works and means exactly the same thing. We use the shorter form in this course.
+- **In a JavaScript `import`**, you *must* start with `./`, as in `import { createApp } from './js/petite-vue.es.js'`. Without it, the browser reads `js/petite-vue.es.js` as the name of a package and refuses to load it.
+- **Never start a path with `/`** on a GitHub Pages project site. Your site lives at `username.github.io/repo-name/`, and a leading slash points to `username.github.io/`, outside your site.
+
+Both relative forms count from the page you're on. If a page ever lives inside a subfolder, you'll need `../` to climb back up (`../js/file.js`).
+
+### My Demo Island Counters
 If all is well, this counter will be working!
 
 <is-land on:visible>
 
-  <div id="counter" v-scope="{ count: 0 }">
+  <div id="counter1" v-scope="{ count: 5 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count++">Add one</button>
+    <button @click="count+=3">Add three!</button>
+  </div>
+
+  <div id="counter2" v-scope="{ count: 13 }">
+    <p>Count: <span v-text="count"></span></p>
+    <button @click="count-=3">Subtract three!</button>
   </div>
 
   <template data-island>
     <script type="module">
       import { createApp } from './js/petite-vue.js'
-      createApp().mount('#counter')
+      createApp().mount('#counter1')
+      createApp().mount('#counter2')
     </script>
   </template>
 
 </is-land>
+
