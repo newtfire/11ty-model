@@ -2,7 +2,12 @@
 title: Island Architecture Orientation
 layout: base.njk
 permalink: islandarch.html
+templateEngineOverride: md
 ---
+<!-- ebb: I needed to add the "templateEngineOverride: md" in the fences
+because this page explains some liquid tags quoted in markdown, and eleventy overrides
+the backticks and won't display the quoted tagging. So this should stop eleventy from doing that.
+ -->
 
 # Islands: A Different Way to Design an Interactive Site
 
