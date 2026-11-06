@@ -40,6 +40,56 @@ hidden until interaction.
     section.gallery {display:none;}
 */
 
+table { border-collapse: collapse; width: 100%;
+border: 2px solid #BF9E7D;
+/*border: 0*/
+}
+
+tr {border-collapse: collapse; border: 0}
+
+th
+{ border-collapse: collapse;
+border: 1px solid  #000066;
+background-color: #bad7e6 /*#7E967E*/;
+padding: 1px;
+vertical-align:top;
+}
+
+td
+{ border-collapse: collapse;
+border: 1px solid #000066;
+padding: 7px;
+vertical-align:top;
+}
+
+th:nth-child(1), td:nth-child(1) {
+width:12%; text-align:center;
+}
+
+th:nth-child(2), td:nth-child(2) {
+width:34%;
+}
+
+th:nth-child(3), td:nth-child(3) {
+width:34%;
+}
+th:nth-child(4), td:nth-child(4) {
+width:10%;
+}
+th:nth-child(5), td:nth-child(5) {
+width:10%;
+}
+/* td:nth-child(1) {background-color:/* #bad7e6*/
+/*td:nth-child(2), td:nth-child(3) {background-color:#e1ebf0/\*#C5D3D3*\/;}*/
+
+tr:nth-child(odd) {
+  background-color: #e3dcee;
+}
+tr:nth-child(even) {
+  background-color: #e3e9d8;
+}
+
+
 section.pushButton {width:30%; margin:auto; display:flex; justify-content: space-around}
 .pushButton button {
     background-color:lavender;
