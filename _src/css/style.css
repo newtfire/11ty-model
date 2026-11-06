@@ -89,6 +89,24 @@ tr:nth-child(even) {
   background-color: #e3e9d8;
 }
 
+section.counterFlex {
+    display: flex;
+    justify-content:space-between;
+    width:20%;
+}
+div.counter { background-color: #bad7e6;
+    border: 3px solid #BF9E7D;
+    padding:1em;
+    }
+
+button.add {
+    background-color:#e3e9d8;
+    font-weight:bold; }
+
+button.subtract {
+    background-color: #e3dcee;
+    font-weight:bold;}
+
 
 section.pushButton {width:30%; margin:auto; display:flex; justify-content: space-around}
 .pushButton button {

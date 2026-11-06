@@ -201,19 +201,21 @@ All of your file paths are *relative*: they point to a folder next to the page y
 Both relative forms count from the page you're on. If a page ever lives inside a subfolder, you'll need `../` to climb back up (`../js/file.js`).
 
 ### My Demo Island Counters
-If all is well, this counter will be working!
+If all is well, these counters will be working!
 
 <is-land on:visible>
 
-  <div id="counter1" v-scope="{ count: 5 }">
+<section class="counterFlex">
+  <div class="counter" id="counter1" v-scope="{ count: 5 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count+=3">Add three!</button>
+    <button class="add" @click="count+=3">Add three!</button>
   </div>
 
-  <div id="counter2" v-scope="{ count: 13 }">
+  <div class="counter" id="counter2" v-scope="{ count: 13 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count-=3">Subtract three!</button>
+    <button class="subtract" @click="count-=3">Subtract three!</button>
   </div>
+</section>
 
   <template data-island>
     <script type="module">

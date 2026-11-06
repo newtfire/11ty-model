@@ -185,16 +185,18 @@ Take your existing scene-setup code, completely unchanged, and wrap it in an is-
 </ul>
 <p>Both relative forms count from the page you're on. If a page ever lives inside a subfolder, you'll need <code>../</code> to climb back up (<code>../js/file.js</code>).</p>
 <h3>My Demo Island Counters</h3>
-<p>If all is well, this counter will be working!</p>
+<p>If all is well, these counters will be working!</p>
 <is-land on:visible>
-  <div id="counter1" v-scope="{ count: 5 }">
+<section class="counterFlex">
+  <div class="counter" id="counter1" v-scope="{ count: 5 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count+=3">Add three!</button>
+    <button class="add" @click="count+=3">Add three!</button>
   </div>
-  <div id="counter2" v-scope="{ count: 13 }">
+  <div class="counter" id="counter2" v-scope="{ count: 13 }">
     <p>Count: <span v-text="count"></span></p>
-    <button @click="count-=3">Subtract three!</button>
+    <button class="subtract" @click="count-=3">Subtract three!</button>
   </div>
+</section>
   <template data-island>
     <script type="module">
       import { createApp } from './js/petite-vue.js'
