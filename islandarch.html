@@ -25,7 +25,11 @@
  <h1>Island Architecture Orientation</h1>
  <h2></h2>
 
-    <h1>Islands: A Different Way to Design an Interactive Site</h1>
+    <!-- ebb: I needed to add the "templateEngineOverride: md" in the fences
+because this page explains some liquid tags quoted in markdown, and eleventy overrides
+the backticks and won't display the quoted tagging. So this should stop eleventy from doing that.
+ -->
+<h1>Islands: A Different Way to Design an Interactive Site</h1>
 <p><em>An orientation for the part of this course where we build our site in 11ty and add interactivity with <code>&lt;is-land&gt;</code> and petite-vue.</em></p>
 <h2>Two ways to build a website</h2>
 <p>There are, broadly, two ways people build sites today that have interactive parts.</p>
@@ -65,7 +69,7 @@
 </ul>
 <p><strong>petite-vue</strong> is what actually runs once an island wakes up. It's a very small library (only about 6 KB), and it lets us add state and reactivity directly onto existing HTML without a build step or a compiler. <strong><code>v-scope</code> marks the region controlled by petite-vue.</strong> Inside that region:</p>
 <ul>
-<li>`` displays a value, and updates automatically whenever it changes</li>
+<li><code>{{ count }}</code> displays a value, and updates automatically whenever it changes</li>
 <li><code>@click=&quot;count++&quot;</code> runs code in response to an event</li>
 <li>the values in <code>v-scope=&quot;{ ... }&quot;</code> are the <em>state</em> — the data this piece of the page remembers</li>
 </ul>
@@ -82,7 +86,7 @@
 }
 </code></pre>
 <pre><code class="language-html">&lt;div v-scope=&quot;Counter({ initialCount: 5 })&quot;&gt;
-  &lt;p&gt;&lt;/p&gt;
+  &lt;p&gt;{{ count }}&lt;/p&gt;
   &lt;button @click=&quot;increment&quot;&gt;+&lt;/button&gt;
 &lt;/div&gt;
 </code></pre>
@@ -128,7 +132,7 @@ is-lands javascript to them.</p>
 </code></pre>
 <ul>
 <li>The <code>id</code> in <code>mount('#counter')</code> has to match the <code>id</code> on the element with <code>v-scope</code>.</li>
-<li>Use <code>v-text=&quot;count&quot;</code> instead of ``. Nunjucks also reads double curly braces and will try to fill them in before the browser sees them.</li>
+<li>Use <code>v-text=&quot;count&quot;</code> instead of <code>{{ count }}</code>. Nunjucks also reads double curly braces and will try to fill them in before the browser sees them.</li>
 </ul>
 <h2>First exercise: turn your Three.js sketch into an island</h2>
 <p>Since you already have a working Three.js scene from the last unit, the very first island you build won't require learning any new syntax! This is now purely about <em>timing</em> and incorporating your three.js model into your site.</p>
