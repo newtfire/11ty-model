@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport"
+           content="width=device-width,
+           user-scalable=no,
+           initial-scale=1.0,
+           maximum-scale=1.0,
+           minimum-scale=1.0">
+     <meta http-equiv="X-UA-Compatible"
+           content="ie=edge">
+     <title>Make a filterable gallery: is-lands with state</title>
+     <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="js/is-land.js"></script>
+     <!-- ebb: I needed to remove a leading slash from the js
+     as well as the css line association lines for is-lands to properly deploy to gh-pages. -->
+</head>
+<body>
+ <nav>
+    <a href="index.html">Home</a> | <a href="dig400.html">DIGIT 400 </a> | <a href="gallery.html">Gallery</a> | <a href="three.html">Three-D</a>
+</nav>
+
+
+ <h1>Make a filterable gallery: is-lands with state</h1>
+ <h2></h2>
+
+    <p><em>With this exercise, you'll build an island with real <strong>state</strong>: a value your page remembers and reacts to. You build it from a gallery of your own images.</em></p>
+<h2>What you are building</h2>
+<p>A gallery with a row of buttons above it. Click <strong>Sketches</strong> and only your sketches show. Click <strong>All</strong> and everything comes back. The page never reloads.</p>
+<h2>The idea: the page is already there</h2>
+<p>Every image in the gallery is ordinary HTML that 11ty builds ahead of time. The island doesn't create the pictures. It only remembers one thing, which topic is <strong>active</strong>, and shows or hides sections to match.</p>
+<ul>
+<li>The <strong>state</strong> is one value: <code>active</code>. It starts as <code>'all'</code>.</li>
+<li>Each <strong>button</strong> changes <code>active</code> when you click it.</li>
+<li>Each <strong>section</strong> of images uses <code>v-show</code> to decide whether it should be visible, based on <code>active</code>.</li>
+</ul>
+<h2>Step 1: Sort your images into topic folders</h2>
+<p>Choose three topics and at least two images for each. Put them in folders inside the <code>img</code> folder you already copy into your site:</p>
+<pre><code>_src
+  img
+    sketches
+    photos
+    type
+</code></pre>
+<p>Use your own topics and names. Keep the folder names short and lowercase, with no spaces.</p>
+<h2>Step 2: Add the gallery to a page</h2>
+<p>Make a new markdown page (with front matter and your <code>base.njk</code> layout). Paste this in, then change the topics, file names, and alt text to match your images:</p>
+<pre><code class="language-html">&lt;is-land on:visible&gt;
+
+&lt;div id=&quot;gallery&quot; v-scope=&quot;{ active: 'all' }&quot;&gt;
+  &lt;div class=&quot;filters&quot;&gt;
+    &lt;button @click=&quot;active = 'all'&quot; :class=&quot;{ on: active === 'all' }&quot; :aria-pressed=&quot;String(active === 'all')&quot;&gt;All&lt;/button&gt;
+    &lt;button @click=&quot;active = 'sketches'&quot; :class=&quot;{ on: active === 'sketches' }&quot; :aria-pressed=&quot;String(active === 'sketches')&quot;&gt;Sketches&lt;/button&gt;
+    &lt;button @click=&quot;active = 'photos'&quot; :class=&quot;{ on: active === 'photos' }&quot; :aria-pressed=&quot;String(active === 'photos')&quot;&gt;Photos&lt;/button&gt;
+    &lt;button @click=&quot;active = 'type'&quot; :class=&quot;{ on: active === 'type' }&quot; :aria-pressed=&quot;String(active === 'type')&quot;&gt;Type&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;section class=&quot;topic&quot; v-show=&quot;active === 'all' || active === 'sketches'&quot;&gt;
+    &lt;h3&gt;Sketches&lt;/h3&gt;
+    &lt;img src=&quot;img/sketches/first.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+    &lt;img src=&quot;img/sketches/second.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+  &lt;/section&gt;
+  &lt;section class=&quot;topic&quot; v-show=&quot;active === 'all' || active === 'photos'&quot;&gt;
+    &lt;h3&gt;Photos&lt;/h3&gt;
+    &lt;img src=&quot;img/photos/first.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+    &lt;img src=&quot;img/photos/second.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+  &lt;/section&gt;
+  &lt;section class=&quot;topic&quot; v-show=&quot;active === 'all' || active === 'type'&quot;&gt;
+    &lt;h3&gt;Type&lt;/h3&gt;
+    &lt;img src=&quot;img/type/first.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+    &lt;img src=&quot;img/type/second.jpg&quot; alt=&quot;Describe this image&quot;&gt;
+  &lt;/section&gt;
+&lt;/div&gt;
+
+  &lt;template data-island&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      import { createApp } from './js/petite-vue.js'
+      createApp().mount('#gallery')
+    &lt;/script&gt;
+  &lt;/template&gt;
+
+&lt;/is-land&gt;
+</code></pre>
+<p>Three things have to match exactly:</p>
+<ul>
+<li>The topic word in each button (<code>active = 'photos'</code>) and in its section (<code>active === 'photos'</code>).</li>
+<li>The <code>id</code> on the gallery (<code>gallery</code>) and the id in <code>mount('#gallery')</code>.</li>
+<li>The folder and file names in each <code>src</code>.</li>
+</ul>
+<p><strong>Markdown rule:</strong> leave no blank lines inside the <code>&lt;div id=&quot;gallery&quot;&gt;</code>. A blank line makes Markdown start treating the next indented lines as a code block.</p>
+<h2>Step 3: Style the buttons</h2>
+<p>Add this to your stylesheet (or adjust to taste). The <code>on</code> class marks the active button:</p>
+<pre><code class="language-css">.filters button.on {
+  font-weight: bold;
+  text-decoration: underline;
+}
+.topic img {
+  max-width: 14rem;
+  margin: 0.5rem;
+}
+</code></pre>
+<p>Do <strong>not</strong> give your sections a CSS rule like <code>display: none</code>. <code>v-show</code> hides a section by adding its own inline style, and a rule in your stylesheet can win over it. If your buttons work but no images appear, look for a <code>display: none</code> rule that matches your sections.</p>
+<h2>Step 4: Test it</h2>
+<p>Run <code>npm run start</code>. Click each button. Then publish and click through the same buttons on your live GitHub Pages page. Check these:</p>
+<ul>
+<li>[ ] <strong>All</strong> shows every topic, and each other button shows only its own.</li>
+<li>[ ] The active button looks different from the others.</li>
+<li>[ ] Every image has alt text that describes it.</li>
+<li>[ ] It works on the live Pages site, not just localhost.</li>
+</ul>
+<h2>Try next (optional)</h2>
+<ul>
+<li><strong>Start with nothing showing.</strong> Change <code>active: 'all'</code> to <code>active: 'none'</code>. What does the page look like until someone clicks?</li>
+<li><strong>Say what's showing.</strong> Add <code>&lt;p&gt;Showing: &lt;span v-text=&quot;active&quot;&gt;&lt;/span&gt;&lt;/p&gt;</code> inside the <code>div</code>.</li>
+<li><strong>Use it for your guide.</strong> The same pattern can show one Tech Issue Guide section at a time. Each section's heading would be a button.</li>
+</ul>
+<h2>Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Buttons appear but nothing happens when you click</td>
+<td>Is <code>js/is-land.js</code> loaded in <code>base.njk</code>? Does <code>mount('#gallery')</code> match the <code>id</code>? Look in the Console for red.</td>
+</tr>
+<tr>
+<td>Buttons work but no images appear</td>
+<td>A <code>display: none</code> rule in your CSS matches your sections. Remove it.</td>
+</tr>
+<tr>
+<td>One button shows nothing</td>
+<td>The topic word in the button and its section don't match exactly (check spelling and capitals).</td>
+</tr>
+<tr>
+<td>Images are broken (alt text shows instead)</td>
+<td>The <code>src</code> path doesn't match your folder and file names. Don't start a <code>src</code> with <code>/</code>.</td>
+</tr>
+<tr>
+<td>The gallery shows as a block of code</td>
+<td>A blank line or an indented tag inside the gallery <code>div</code> made Markdown treat it as code.</td>
+</tr>
+</tbody>
+</table>
+<h2>Submit</h2>
+<p>The link to your live GitHub Pages page with the working gallery, with at least three topics and two images in each.</p>
+
+
+ <hr/>
+<div id="footer">
+    <div id="bannerImage"><a href="https://newtfire.org/courses/"><img id="newt"
+        src="img/newt-mosaic4.png"
+        alt="NewtFire logo: a mosaic rendering of a firebelly newt"/></a></div>
+    <div id="title"><a href="https://newtfire.org">newtFire</a> <a href="https://github.com/newtfire">{GitHub}</a></div>
+    <div class="boilerplate"><span><strong>Maintained by: </strong> Elisa E. Beshero-Bondar
+        (eeb4 at psu.edu)   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" /></a><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a> <strong>Last modified:
+        </strong>Wednesday, 22-Mar-2023 05:28:35 UTC. <a href="https://newtfire.org/courses/firebellies.html">Powered by firebellies</a>.</span></div>
+</div>
+
+
+</body>
+</html>
