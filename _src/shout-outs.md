@@ -37,11 +37,11 @@ Markdown links work for this assignment too. The HTML form saves you a step late
 
 A shout-out does three things: it points to **one** source, it gives **one concrete reason**, and it sounds like you.
 
-> If you only read one thing about how feeds decide what you see, start with <a href="https://example.com/explainer">this plain-language explainer</a>. It's the first piece that made me notice how little of my own feed I actually chose.
+> **Essential reading**: Looking to start a projection mapping project yourself? You need to study up on projectors, and findmyprojector.com has some of [the best guidance to projectors](https://findmyprojector.com/projectors) that we've seen.
 
 A weak one is just a description:
 
-> This article is about recommendation feeds.
+> [Here is a source](https://findmyprojector.com/projectors) on projectors used in projection mapping.
 
 Questions to ask yourself: Who is this for? What will they know after reading it that they didn't before? What surprised you? You can be informal, but a reader should be able to tell why *you* chose it.
 
