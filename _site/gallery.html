@@ -13,7 +13,8 @@
      <title>Gallery</title>
      <link rel="stylesheet" href="css/style.css">
      <script type="module" src="js/is-land.js"></script>
-
+     <!-- ebb: I needed to remove a leading slash from the js
+     as well as the css line association lines for is-lands to properly deploy to gh-pages. -->
 </head>
 <body>
  <nav>
@@ -22,100 +23,107 @@
 
 
  <h1>Gallery</h1>
-
  <h2></h2>
 
- <p>Please press a button to choose a topical set of images. </p>
+    
+<h2>Welcome to the gallery!</h2>
+<p>Please press a button to choose a topical set of images. When we add a new image to a topic folder and build our 11ty site, and it shows up here!</p>
+
+
 <is-land on:visible>
   <div id="gallery" v-scope="{ active: 'none' }">
     <section class="pushButton">
-      <button @click="active = 'all'">all</button>
-      
-        <button @click="active = 'animals'">animals</button>
-      
-        <button @click="active = 'music'">music</button>
-      
-        <button @click="active = 'tech'">tech</button>
-      
-    </section>
+      <button @click="active = 'all'" :class="{ on: active === 'all' }" :aria-pressed="String(active === 'all')">All</button>
 
+      
+      <button @click="active = 'animals'" :class="{ on: active === 'animals' }" :aria-pressed="String(active === 'animals')">animals</button>
+      
+      <button @click="active = 'music'" :class="{ on: active === 'music' }" :aria-pressed="String(active === 'music')">music</button>
+      
+      <button @click="active = 'tech'" :class="{ on: active === 'tech' }" :aria-pressed="String(active === 'tech')">tech</button>
+      
+
+    </section>
     
-      <section class="gallery animals" v-show="active === 'all' || active === 'animals'">
-        <h2>animals</h2>
-        <div class="flex">
-          
-            <figure>
-              <img src="img/animals/newt-mosaic4.png" alt="newt-mosaic4">
-              <figcaption>newt-mosaic4</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/animals/puffin-habitat.jpg" alt="puffin-habitat">
-              <figcaption>puffin-habitat</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/animals/puffin1.jpg" alt="puffin1">
-              <figcaption>puffin1</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/animals/xpath-rabbit.png" alt="xpath-rabbit">
-              <figcaption>xpath-rabbit</figcaption>
-            </figure>
-          
-        </div>
-      </section>
+
+    <section class="gallery animals" v-show="active === 'all' || active === 'animals'">
+      <h3>animals</h3>
+      <div class="flex">
+        
+        <figure>
+          <img src="img/animals/newt-mosaic4.png" alt="newt mosaic4">
+          <figcaption>newt mosaic4</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/animals/puffin-habitat.jpg" alt="puffin habitat">
+          <figcaption>puffin habitat</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/animals/puffin1.jpg" alt="puffin1">
+          <figcaption>puffin1</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/animals/xpath-rabbit.png" alt="xpath rabbit">
+          <figcaption>xpath rabbit</figcaption>
+        </figure>
+        
+      </div>
+    </section>
     
-      <section class="gallery music" v-show="active === 'all' || active === 'music'">
-        <h2>music</h2>
-        <div class="flex">
-          
-            <figure>
-              <img src="img/music/bagpipe.png" alt="bagpipe">
-              <figcaption>bagpipe</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/music/pan-flute.jpg" alt="pan-flute">
-              <figcaption>pan-flute</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/music/piano-keys.jpg" alt="piano-keys">
-              <figcaption>piano-keys</figcaption>
-            </figure>
-          
-        </div>
-      </section>
+
+    <section class="gallery music" v-show="active === 'all' || active === 'music'">
+      <h3>music</h3>
+      <div class="flex">
+        
+        <figure>
+          <img src="img/music/bagpipe.png" alt="bagpipe">
+          <figcaption>bagpipe</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/music/pan-flute.jpg" alt="pan flute">
+          <figcaption>pan flute</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/music/piano-keys.jpg" alt="piano keys">
+          <figcaption>piano keys</figcaption>
+        </figure>
+        
+      </div>
+    </section>
     
-      <section class="gallery tech" v-show="active === 'all' || active === 'tech'">
-        <h2>tech</h2>
-        <div class="flex">
-          
-            <figure>
-              <img src="img/tech/DIGIT-fingerprint.png" alt="DIGIT-fingerprint">
-              <figcaption>DIGIT-fingerprint</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/tech/circuitHeart.jpg" alt="circuitHeart">
-              <figcaption>circuitHeart</figcaption>
-            </figure>
-          
-            <figure>
-              <img src="img/tech/pebbleWatch.png" alt="pebbleWatch">
-              <figcaption>pebbleWatch</figcaption>
-            </figure>
-          
-        </div>
-      </section>
+
+    <section class="gallery tech" v-show="active === 'all' || active === 'tech'">
+      <h3>tech</h3>
+      <div class="flex">
+        
+        <figure>
+          <img src="img/tech/DIGIT-fingerprint.png" alt="DIGIT fingerprint">
+          <figcaption>DIGIT fingerprint</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/tech/circuitHeart.jpg" alt="circuitHeart">
+          <figcaption>circuitHeart</figcaption>
+        </figure>
+        
+        <figure>
+          <img src="img/tech/pebbleWatch.png" alt="pebbleWatch">
+          <figcaption>pebbleWatch</figcaption>
+        </figure>
+        
+      </div>
+    </section>
     
   </div>
 
   <template data-island>
     <script type="module">
-      import { createApp } from 'https://unpkg.com/petite-vue?module'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#gallery')
     </script>
   </template>

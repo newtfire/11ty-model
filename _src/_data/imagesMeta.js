@@ -1,4 +1,5 @@
-// 2026-10-28 ebb: for parsing images in the img/ directory:
+// 2026-10-28 ebb: for parsing images in the img/ directory.
+// 2026-11-11 ebb: Updated: clearer code and comments for how we retrieve topics and laters
 const fs = require("fs");
 const path = require("path");
 
@@ -7,15 +8,24 @@ module.exports = function () {
   const isImage = /\.(jpe?g|png|gif|webp|svg)$/i;
   const topics = {};
 
-  for (const dir of fs.readdirSync(imgRoot, { withFileTypes: true })) {
-    if (!dir.isDirectory() || dir.name.startsWith(".")) continue;
+  const folders = fs
+    .readdirSync(imgRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith("."))
+    .map((entry) => entry.name)
+    .sort();
+
+  for (const topic of folders) {
     const files = fs
-      .readdirSync(path.join(imgRoot, dir.name))
-      .filter((f) => isImage.test(f));
+      .readdirSync(path.join(imgRoot, topic))
+      .filter((file) => isImage.test(file))
+      .sort();
+
     if (files.length) {
-      topics[dir.name] = files.map((file) => ({
-        filename: path.parse(file).name,
-        filepath: `img/${dir.name}/${file}`,
+      topics[topic] = files.map((file) => ({
+        label: path.parse(file).name.replace(/[-_]+/g, " "),
+        // ebb; Above our filename "puffin-habitat.jpg" becomes "puffin habitat"
+        filepath: `img/${topic}/${file}`,
+        // ebb: relative filepath with no leading slash, so it works on GitHub Pages.
       }));
     }
   }

@@ -1,62 +1,39 @@
-<!doctype html>
-<html lang="en">
-<head>
-     <meta charset="UTF-8">
-     <meta name="viewport"
-           content="width=device-width,
-           user-scalable=no,
-           initial-scale=1.0,
-           maximum-scale=1.0,
-           minimum-scale=1.0">
-     <meta http-equiv="X-UA-Compatible"
-           content="ie=edge">
-     <title>{{ title }}</title>
-     <link rel="stylesheet" href="css/style.css">
-     <script type="module" src="js/is-land.js"></script>
+---
+layout: base.njk
+---
 
-</head>
-<body>
- {% include "layouts/top.html" %}
+{{ content | safe }}
 
- <h1>{{ title }}</h1>
-
- <h2>{{ param }}</h2>
-
- <p>Please press a button to choose a topical set of images. </p>
 <is-land on:visible>
   <div id="gallery" v-scope="{ active: 'none' }">
     <section class="pushButton">
-      <button @click="active = 'all'">all</button>
-      {% for topic, images in imagesMeta %}
-        <button @click="active = '{{ topic }}'">{{ topic }}</button>
-      {% endfor %}
-    </section>
+      <button @click="active = 'all'" :class="{ on: active === 'all' }" :aria-pressed="String(active === 'all')">All</button>
 
+      {% for topic, images in imagesMeta %}
+      <button @click="active = '{{ topic }}'" :class="{ on: active === '{{ topic }}' }" :aria-pressed="String(active === '{{ topic }}')">{{ topic }}</button>
+      {% endfor %}
+
+    </section>
     {% for topic, images in imagesMeta %}
-      <section class="gallery {{ topic }}" v-show="active === 'all' || active === '{{ topic }}'">
-        <h2>{{ topic }}</h2>
-        <div class="flex">
-          {% for image in images %}
-            <figure>
-              <img src="{{ image.filepath }}" alt="{{ image.filename }}">
-              <figcaption>{{ image.filename }}</figcaption>
-            </figure>
-          {% endfor %}
-        </div>
-      </section>
+
+    <section class="gallery {{ topic }}" v-show="active === 'all' || active === '{{ topic }}'">
+      <h3>{{ topic }}</h3>
+      <div class="flex">
+        {% for image in images %}
+        <figure>
+          <img src="{{ image.filepath }}" alt="{{ image.label }}">
+          <figcaption>{{ image.label }}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+    </section>
     {% endfor %}
   </div>
 
   <template data-island>
     <script type="module">
-      import { createApp } from 'https://unpkg.com/petite-vue?module'
+      import { createApp } from './js/petite-vue.js'
       createApp().mount('#gallery')
     </script>
   </template>
 </is-land>
-
-
- {% include  "layouts/footer.html" %}
-
-</body>
-</html>
