@@ -4,13 +4,13 @@ layout: base.njk
 permalink: shout-outs.html
 ---
 
-Your Tech Issue Resource Guide points readers to sources worth their time. A **shout-out** is how you do it: a sentence or two, in your own voice, that recommends one specific source and tells a reader why it's worth opening. It's not really a summary, and it isn't just a source citation, but it points to a resource, emphasizes it, and credits it to lead people there.
+One important function of your Tech Issue Resource Guide is to point your readers to sources worth their time. For our interactive web media we don't want to do that the same we would in a printed paper. We want something less formal than source citation and more like a **shout-out**: Not really a summary, not like a source citation in a paper, but more of an effective pointer with an explanation, a sentence or two in your own voice, to recommend a specific resource, credit its developers, and tell readers why it's worth opening.
 
-You've developed your Zotero resources by now and read them so you're ready to recommend a few in your guide. For this assignment, experiment with your style for guiding people to important and perhaps esoteric (little-known) web resources that you highly recommend to learn more about something.
+Now that you've developed a good collection of Zotero resources and you've been exploring them, you should be ready to recommend some of them in a "shout-out" of your own style in your Tech Issue guide. For this assignment, experiment with your style for guiding people to important and perhaps esoteric (little-known) web resources that you highly recommend to learn more about something!
 
-This should not be a simple source citation like you'd write in a course paper. To get yourself in the frame of mind for making linked references, develop at least one section of your resource guide in detail and send people for further information to ____. Prepare a "shout-out" to two or three resources that you especially recommend and reasons why you recommend them.
+Again, this should not be a simple source citation like you'd write in a course paper. To get yourself in the frame of mind for wanting call attention to a really good resource, develop at least one section of your resource guide in detail and send people for further information to ____. Prepare a "shout-out" to some resources you strongly encourage checking out, and reasons why you recommend them.
 
-This should be more than a simple hyperlink over text. At least, the text you choose should help to make the resource and its key information recognizable and memorable. Should you provide a small visual preview of the resource, perhaps on hover? Or let your language handle the guidance of your readers to these other resources that you recommend?
+Your shout-outs should be more than a simple hyperlink over text. At least, the text you choose should help to make the resource and its key information *recognizable and memorable*. Perhaps you can provide something interesting on hover, associate the source with providing essential resources.
 
 
 ## What to do
@@ -59,7 +59,7 @@ The link to your live guide on GitHub Pages and the link to your repo. If you us
 
 ## What's coming next
 
-In the next exercise, you'll work on hovering over or tabbing to a shout-out link will show a preview card with details about that reading, so you pull in details from Zotero's XML export. So write the shout-outs you'd want a reader to find.
+In the next exercise, we'll try adding some JS islands so when readers hover over or tab into a shout-out area, they'll see a preview card with details about that resource, pulling in details from Zotero. For some resources on the public web, of course, you can "shout out" more directly. For now, choose the shout-outs you'd most want your readers to find. There will be other ways to tie in to your Zotero investigation, including the visualizations we prepared in October.
 
 ## How I'll look at them
 
