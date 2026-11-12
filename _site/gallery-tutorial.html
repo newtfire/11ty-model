@@ -162,9 +162,16 @@
 </tr>
 </tbody>
 </table>
-<h2>Submit</h2>
-<p>The link to your live GitHub Pages page with the working gallery, with at least three topics and two images in each.</p>
-<h2>Next level: let a script keep your gallery up to date</h2>
+<h3>Submit</h3>
+<p>You can pause here for now and submit your homework:</p>
+<ul>
+<li>The link to your live GitHub Pages page with the working gallery, with at least three topics and two images in each.</li>
+<li>Also, send in the &quot;Code View&quot; of your repo, and</li>
+<li>Let me know if everything is working at this point.</li>
+</ul>
+<p>The next sections present an even better implementation that works for a longer-term workflow, and it builds on what you learned here. Keep on going and update your site.</p>
+<hr/>
+<h2>Level up!: Scripting your gallery to update with new images</h2>
 <p>In Steps 1 to 4 you typed every button, every section, and every <code>&lt;img&gt;</code> yourself. That works, but each new image meant editing the HTML and keeping three things in sync. Here is a tool to make building your site easier from now on, and you can reuse it for your own project.</p>
 <p>It does two jobs:</p>
 <ol>
@@ -213,7 +220,7 @@
 </tbody>
 </table>
 <p>Any <code>.json</code> file in <code>_src/_data</code> becomes a variable that every template can use, named after the file. So <code>gallery.json</code> gives you a variable called <code>gallery</code>.</p>
-<h3>Step A: Keep your topic folders</h3>
+<h3>Step A: Review your topic folders</h3>
 <p>You already made these in Step 1:</p>
 <pre><code>_src
   img
@@ -223,12 +230,13 @@
 </code></pre>
 <p>Each <strong>folder</strong> will become a topic, and each topic will become a button. Images must sit directly inside a topic folder. Images inside a folder inside a topic folder are not read.</p>
 <h3>Step B: Add the script</h3>
-<p>In your project folder (the one with <code>package.json</code> and <code>_src</code> in it), make a new file named <code>update-images.js</code> and paste this in:</p>
+<p>At the root of your repo (at the same level as <code>package.json</code> and <code>_src</code>), make a new file named <code>update-images.js</code>:</p>
 <pre><code>your-project
   _src
   package.json
   update-images.js
 </code></pre>
+<p>Now, paste in this content:</p>
 <pre><code class="language-js">// update-images.js
 // Run with:  node update-images.js
 //
@@ -352,7 +360,8 @@ Added 6: photos/first.jpg, photos/second.jpg, sketches/first.jpg, ...
 <p>You can also <strong>reorder</strong> images: cut and paste an entry higher or lower in its topic's list, and the gallery follows your order.</p>
 <p>JSON is strict. Use double quotes, put a comma between entries, and do <strong>not</strong> put a comma after the last entry in a list or after the last property in an entry.</p>
 <h3>Step E: Add a gallery layout</h3>
-<p>A <strong>layout</strong> is a template that wraps around a page's content. You already use one, <code>base.njk</code>. Now make a second one just for galleries. In <code>_src/_includes</code>, make a new file named <code>gallery-layout.njk</code> and paste this in:</p>
+<p>A <strong>layout</strong> is a template that wraps around a page's content. You already use one, <code>base.njk</code>. Now make a second one just for galleries. In <code>_src/_includes</code>, make a new .njk file: We suggest naming it <code>gallery-layout.njk</code> (in this model 11ty repo, I named mine <code>picspage.njk</code>).</p>
+<p>Paste in this content, and this sets up a <strong>new version of the is-land you wrote out in the first half of this assignment</strong>.</p>
 <pre><code class="language-html">---
 layout: base.njk
 ---
@@ -405,8 +414,11 @@ layout: base.njk
 </ul>
 <p>Those curly-brace tags are not for the browser. <strong>11ty fills them in while it builds your site.</strong></p>
 <p><strong>Why <code>.njk</code>?</strong> The <code>for topic, images in ...</code> loop is written in Nunjucks, the template language for <code>.njk</code> files. A markdown or <code>.html</code> page uses a different language (Liquid) that cannot read this loop, which is why the loop goes in a layout and not in your page.</p>
-<h3>Step F: Add the page</h3>
-<p>Now the page itself is simple. In <code>_src</code>, make a new markdown file named <code>gallery-auto.md</code> and paste this in:</p>
+<h3>Step F: Update your gallery.md or create a new one</h3>
+<p>You can overwrite the <code>gallery.md</code> that you made in <code>_src</code> in the first portion of this assignment, or you can create a new markdown file (maybe <code>gallery-auto.md</code>) for this version of your gallery. It's a lot simpler now!</p>
+<p>This is all the content you need now: just some intro text. This is a good place
+to suggest people press the buttons on the page to see collections of images.
+Here are some sample fences and content:</p>
 <pre><code>---
 title: Gallery (automatic)
 layout: gallery-layout.njk
@@ -416,7 +428,7 @@ Please press a button to choose a topical set of images.
 </code></pre>
 <p>Write whatever introduction you like below the front matter. It becomes the <code>{{ content | safe }}</code> in your layout, so you get to write your page text in markdown while the layout does the gallery work.</p>
 <h3>Step G: Style the new pieces</h3>
-<p>Add this to your stylesheet. Your <code>.filters button.on</code> rule from Step 3 keeps working:</p>
+<p>Here's some suggested CSS for your stylesheet. Your <code>.filters button.on</code> rule from Step 3 keeps working:</p>
 <pre><code class="language-css">.topic .row {
   display: flex;
   flex-wrap: wrap;
@@ -496,6 +508,10 @@ Please press a button to choose a topical set of images.
 <tr>
 <td>The page has no navigation, or the buttons do nothing</td>
 <td>The first lines of <code>gallery-layout.njk</code> should say <code>layout: base.njk</code>, so that <code>js/is-land.js</code> and your nav get loaded. Check that <code>mount('#gallery')</code> matches the <code>id</code>.</td>
+</tr>
+<tr>
+<td>The &quot;Showing:&quot; line changes but the images never hide</td>
+<td>Check the <code>&lt;section&gt;</code> line. Is there a closing quote after the class name, as in <code>class=&quot;topic&quot; v-show=&quot;...&quot;</code>? A missing quote swallows the <code>v-show</code>. In your browser's Inspect panel, a <code>v-show</code> still visible in the HTML means it was never processed.</td>
 </tr>
 <tr>
 <td>You changed <code>alt</code> but the page still shows the old one</td>

@@ -11,10 +11,11 @@ nav {
     margin:2px;
     position: relative; /* or fixed/sticky */
     z-index: 100;
-
-
 }
 
+hr {
+    color:#005500;
+}
 h1 {color: #5F0000;
     display:inline;
     font-size: 2.3em;

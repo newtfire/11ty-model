@@ -10,8 +10,8 @@ A second section. Copy this file, rename it, and change the front matter to make
 - One tool worth trying
 
 <!--
-A second image inside a section is plain HTML. Don't indent the tags, and write
-HTML (not Markdown) between them. Delete the comment marks to use it:
+A second image inside a section is plain HTML. Keep the tags together with no
+blank lines between them, and write HTML (not Markdown) between them. Delete the comment marks to use it:
 
 <figure>
 <img src="img/your-image.png" alt="Describe the image">

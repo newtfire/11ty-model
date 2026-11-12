@@ -1,0 +1,58 @@
+{
+  "animals": [
+    {
+      "file": "newt-mosaic4.png",
+      "caption": "newt mosaic4",
+      "alt": "brave logo of newtfire.org, designed from my pet firebelly newts"
+    },
+    {
+      "file": "puffin-habitat.jpg",
+      "caption": "puffin habitat",
+      "alt": "Some puffins I met in Iceland near where they nest on land during the summer months."
+    },
+    {
+      "file": "puffin1.jpg",
+      "caption": "puffin1",
+      "alt": "A solitary puffin in Iceland"
+    },
+    {
+      "file": "xpath-rabbit.png",
+      "caption": "xpath rabbit",
+      "alt": "This was a cute rabbit we found and are using as a logo for an XPath tutorial."
+    }
+  ],
+  "music": [
+    {
+      "file": "bagpipe.png",
+      "caption": "bagpipe",
+      "alt": "Bagpipes require powerful lungs to play."
+    },
+    {
+      "file": "pan-flute.jpg",
+      "caption": "pan flute",
+      "alt": "Pan flutes are beautiful South American instruments"
+    },
+    {
+      "file": "piano-keys.jpg",
+      "caption": "piano keys",
+      "alt": "I try to play piano sometimes and had lessons as a kid."
+    }
+  ],
+  "tech": [
+    {
+      "file": "DIGIT-fingerprint.png",
+      "caption": "DIGIT fingerprint",
+      "alt": "This is a logo I once designed for the Digit program as a visual pun on Digits being fingers or numbers."
+    },
+    {
+      "file": "circuitHeart.jpg",
+      "caption": "circuitHeart",
+      "alt": "I found this artsy heart apparently made of circuitry somewhere on the internet."
+    },
+    {
+      "file": "pebbleWatch.png",
+      "caption": "pebbleWatch",
+      "alt": "I wear an original Pebble watch, a very early 'smart watch' from I think 2015. It still works!"
+    }
+  ]
+}

@@ -142,11 +142,18 @@ Run `npm run start`. Click each button. Then publish and click through the same 
 | Images are broken (alt text shows instead) | The `src` path doesn't match your folder and file names. Don't start a `src` with `/`. |
 | The gallery shows as a block of code | A blank line or an indented tag inside the gallery `div` made Markdown treat it as code. |
 
-## Submit
+### Submit
 
-The link to your live GitHub Pages page with the working gallery, with at least three topics and two images in each.
+You can pause here for now and submit your homework:
+* The link to your live GitHub Pages page with the working gallery, with at least three topics and two images in each.
+* Also, send in the "Code View" of your repo, and
+* Let me know if everything is working at this point.
 
-## Next level: let a script keep your gallery up to date
+The next sections present an even better implementation that works for a longer-term workflow, and it builds on what you learned here. Keep on going and update your site.
+
+<hr/>
+
+## Level up!: Scripting your gallery to update with new images
 
 In Steps 1 to 4 you typed every button, every section, and every `<img>` yourself. That works, but each new image meant editing the HTML and keeping three things in sync. Here is a tool to make building your site easier from now on, and you can reuse it for your own project.
 
@@ -177,7 +184,7 @@ Your day-to-day workflow becomes:
 
 Any `.json` file in `_src/_data` becomes a variable that every template can use, named after the file. So `gallery.json` gives you a variable called `gallery`.
 
-### Step A: Keep your topic folders
+### Step A: Review your topic folders
 
 You already made these in Step 1:
 
@@ -193,7 +200,7 @@ Each **folder** will become a topic, and each topic will become a button. Images
 
 ### Step B: Add the script
 
-In your project folder (the one with `package.json` and `_src` in it), make a new file named `update-images.js` and paste this in:
+At the root of your repo (at the same level as `package.json` and `_src`), make a new file named `update-images.js`:
 
 ```
 your-project
@@ -201,6 +208,8 @@ your-project
   package.json
   update-images.js
 ```
+
+Now, paste in this content:
 
 ```js
 // update-images.js
@@ -348,7 +357,9 @@ JSON is strict. Use double quotes, put a comma between entries, and do **not** p
 
 ### Step E: Add a gallery layout
 
-A **layout** is a template that wraps around a page's content. You already use one, `base.njk`. Now make a second one just for galleries. In `_src/_includes`, make a new file named `gallery-layout.njk` and paste this in:
+A **layout** is a template that wraps around a page's content. You already use one, `base.njk`. Now make a second one just for galleries. In `_src/_includes`, make a new .njk file: We suggest naming it `gallery-layout.njk` (in this model 11ty repo, I named mine `picspage.njk`).
+
+Paste in this content, and this sets up a **new version of the is-land you wrote out in the first half of this assignment**.
 
 ```html
 ---
@@ -402,9 +413,13 @@ Those curly-brace tags are not for the browser. **11ty fills them in while it bu
 
 **Why `.njk`?** The `for topic, images in ...` loop is written in Nunjucks, the template language for `.njk` files. A markdown or `.html` page uses a different language (Liquid) that cannot read this loop, which is why the loop goes in a layout and not in your page.
 
-### Step F: Add the page
+### Step F: Update your gallery.md or create a new one
 
-Now the page itself is simple. In `_src`, make a new markdown file named `gallery-auto.md` and paste this in:
+You can overwrite the `gallery.md` that you made in `_src` in the first portion of this assignment, or you can create a new markdown file (maybe `gallery-auto.md`) for this version of your gallery. It's a lot simpler now!
+
+This is all the content you need now: just some intro text. This is a good place
+to suggest people press the buttons on the page to see collections of images.
+Here are some sample fences and content:
 
 ```
 ---
@@ -419,7 +434,7 @@ Write whatever introduction you like below the front matter. It becomes the `{{ 
 
 ### Step G: Style the new pieces
 
-Add this to your stylesheet. Your `.filters button.on` rule from Step 3 keeps working:
+Here's some suggested CSS for your stylesheet. Your `.filters button.on` rule from Step 3 keeps working:
 
 ```css
 .topic .row {
@@ -470,4 +485,5 @@ Run `npm run start` and open `gallery-auto.html`. Keep that running, and open a 
 | Terminal error: `illegal tag: {% for topic, images in gallery %}` | The loop is in a markdown or `.html` page. The loop belongs in the layout, `_src/_includes/gallery-layout.njk`. Your page should have only front matter and text. |
 | The page has your text but no buttons or images | Does the front matter in `gallery-auto.md` say `layout: gallery-layout.njk`? Is the layout in `_src/_includes`? |
 | The page has no navigation, or the buttons do nothing | The first lines of `gallery-layout.njk` should say `layout: base.njk`, so that `js/is-land.js` and your nav get loaded. Check that `mount('#gallery')` matches the `id`. |
+| The "Showing:" line changes but the images never hide | Check the `<section>` line. Is there a closing quote after the class name, as in `class="topic" v-show="..."`? A missing quote swallows the `v-show`. In your browser's Inspect panel, a `v-show` still visible in the HTML means it was never processed. |
 | You changed `alt` but the page still shows the old one | Did you save `gallery.json`? Is `npm run start` still running? Look at the `alt` in `_site/gallery-auto.html`. |

@@ -18,8 +18,8 @@ Plain text becomes paragraphs. A blank line starts a new one.
 
 Lists can also start with a `-`
 
-- List 
-- List 
+- List
+- List
 
 1. A numbered list uses numbers.
 2. The browser does the counting.

@@ -7,20 +7,20 @@ layout: base.njk
 <is-land on:visible>
   <div id="gallery" v-scope="{ active: 'none' }">
     <section class="pushButton">
-      <button @click="active = 'all'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
-      {% for topic, images in imagesMeta %}
-      <button @click="active = '{{ topic }}'" :class="{ on: active === '{{ topic }}' }" :aria-pressed="active === '{{ topic }}'">{{ topic }}</button>
+       <button @click="active = 'none'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
+      {% for topic, images in gallery %}
+      <button @click="active = '{{ topic }}'" :class="{ on: active === '{{ topic }}' }" :aria-pressed="active === '{{ topic }}'">{{ topic }} ({{ images.length }})</button>
       {% endfor %}
     </section>
     <p aria-live="polite">Showing: <span v-text="active"></span></p>
-    {% for topic, images in imagesMeta %}
-    <section class="gallery {{ topic }}" v-show="active === 'all' || active === '{{ topic }}'">
+    {% for topic, images in gallery %}
+    <section class="gallery" v-show="active === 'all' || active === '{{ topic }}'">
       <h3>{{ topic }}</h3>
       <div class="flex">
         {% for image in images %}
         <figure>
-          <img src="{{ image.filepath }}" alt="{{ image.label }}">
-          <figcaption>{{ image.label }}</figcaption>
+          <img src="img/{{ topic }}/{{ image.file }}" alt="{{ image.alt or image.caption }}">
+          <figcaption>{{ image.caption }}</figcaption>
         </figure>
         {% endfor %}
       </div>

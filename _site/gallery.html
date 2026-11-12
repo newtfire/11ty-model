@@ -33,82 +33,82 @@
 <is-land on:visible>
   <div id="gallery" v-scope="{ active: 'none' }">
     <section class="pushButton">
-      <button @click="active = 'all'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
+       <button @click="active = 'none'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
       
-      <button @click="active = 'animals'" :class="{ on: active === 'animals' }" :aria-pressed="active === 'animals'">animals</button>
+      <button @click="active = 'animals'" :class="{ on: active === 'animals' }" :aria-pressed="active === 'animals'">animals (4)</button>
       
-      <button @click="active = 'music'" :class="{ on: active === 'music' }" :aria-pressed="active === 'music'">music</button>
+      <button @click="active = 'music'" :class="{ on: active === 'music' }" :aria-pressed="active === 'music'">music (3)</button>
       
-      <button @click="active = 'tech'" :class="{ on: active === 'tech' }" :aria-pressed="active === 'tech'">tech</button>
+      <button @click="active = 'tech'" :class="{ on: active === 'tech' }" :aria-pressed="active === 'tech'">tech (3)</button>
       
     </section>
     <p aria-live="polite">Showing: <span v-text="active"></span></p>
     
-    <section class="gallery animals" v-show="active === 'all' || active === 'animals'">
+    <section class="gallery" v-show="active === 'all' || active === 'animals'">
       <h3>animals</h3>
       <div class="flex">
         
         <figure>
-          <img src="img/animals/newt-mosaic4.png" alt="newt mosaic4">
+          <img src="img/animals/newt-mosaic4.png" alt="brave logo of newtfire.org, designed from my pet firebelly newts">
           <figcaption>newt mosaic4</figcaption>
         </figure>
         
         <figure>
-          <img src="img/animals/puffin-habitat.jpg" alt="puffin habitat">
+          <img src="img/animals/puffin-habitat.jpg" alt="Some puffins I met in Iceland near where they nest on land during the summer months.">
           <figcaption>puffin habitat</figcaption>
         </figure>
         
         <figure>
-          <img src="img/animals/puffin1.jpg" alt="puffin1">
+          <img src="img/animals/puffin1.jpg" alt="A solitary puffin in Iceland">
           <figcaption>puffin1</figcaption>
         </figure>
         
         <figure>
-          <img src="img/animals/xpath-rabbit.png" alt="xpath rabbit">
+          <img src="img/animals/xpath-rabbit.png" alt="This was a cute rabbit we found and are using as a logo for an XPath tutorial.">
           <figcaption>xpath rabbit</figcaption>
         </figure>
         
       </div>
     </section>
     
-    <section class="gallery music" v-show="active === 'all' || active === 'music'">
+    <section class="gallery" v-show="active === 'all' || active === 'music'">
       <h3>music</h3>
       <div class="flex">
         
         <figure>
-          <img src="img/music/bagpipe.png" alt="bagpipe">
+          <img src="img/music/bagpipe.png" alt="Bagpipes require powerful lungs to play.">
           <figcaption>bagpipe</figcaption>
         </figure>
         
         <figure>
-          <img src="img/music/pan-flute.jpg" alt="pan flute">
+          <img src="img/music/pan-flute.jpg" alt="Pan flutes are beautiful South American instruments">
           <figcaption>pan flute</figcaption>
         </figure>
         
         <figure>
-          <img src="img/music/piano-keys.jpg" alt="piano keys">
+          <img src="img/music/piano-keys.jpg" alt="I try to play piano sometimes and had lessons as a kid.">
           <figcaption>piano keys</figcaption>
         </figure>
         
       </div>
     </section>
     
-    <section class="gallery tech" v-show="active === 'all' || active === 'tech'">
+    <section class="gallery" v-show="active === 'all' || active === 'tech'">
       <h3>tech</h3>
       <div class="flex">
         
         <figure>
-          <img src="img/tech/DIGIT-fingerprint.png" alt="DIGIT fingerprint">
+          <img src="img/tech/DIGIT-fingerprint.png" alt="This is a logo I once designed for the Digit program as a visual pun on Digits being fingers or numbers.">
           <figcaption>DIGIT fingerprint</figcaption>
         </figure>
         
         <figure>
-          <img src="img/tech/circuitHeart.jpg" alt="circuitHeart">
+          <img src="img/tech/circuitHeart.jpg" alt="I found this artsy heart apparently made of circuitry somewhere on the internet.">
           <figcaption>circuitHeart</figcaption>
         </figure>
         
         <figure>
-          <img src="img/tech/pebbleWatch.png" alt="pebbleWatch">
+          <img src="img/tech/pebbleWatch.png" alt="I wear an original Pebble watch, a very early &#39;smart watch&#39; from I think 2015. It still works!">
           <figcaption>pebbleWatch</figcaption>
         </figure>
         
