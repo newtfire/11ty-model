@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport"
+           content="width=device-width,
+           user-scalable=no,
+           initial-scale=1.0,
+           maximum-scale=1.0,
+           minimum-scale=1.0">
+     <meta http-equiv="X-UA-Compatible"
+           content="ie=edge">
+     <title>Showing the Last-Built and Last-Committed Dates in an 11ty Footer</title>
+     <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="js/is-land.js"></script>
+     <!-- ebb: I needed to remove a leading slash from the js
+     as well as the css line association lines for is-lands to properly deploy to gh-pages. -->
+</head>
+<body>
+ <nav>
+    <a href="index.html">Home</a> | <a href="dig400.html">DIGIT 400 </a> | <a href="gallery.html">Gallery</a> | <a href="three.html">Three-D</a>
+</nav>
+
+
+ <h1>Showing the Last-Built and Last-Committed Dates in an 11ty Footer</h1>
+ <h2></h2>
+
+    <p><strong>What you'll build:</strong> a footer that displays two dates:</p>
+<ol>
+<li><strong>Page last updated</strong>: the date of the last git commit that touched <em>this page's</em> source file</li>
+<li><strong>Site last built</strong>: the date and time of the most recent Eleventy build</li>
+</ol>
+<p>You'll also see why a first attempt at this goes wrong, which teaches something important about <em>when</em> code runs.</p>
+<hr>
+<h2>1. The bug: code that runs in the wrong place</h2>
+<p>A natural first try is an <code>is-land</code> (petite-vue / Eleventy Island) that writes the date into the footer:</p>
+<pre><code class="language-html">&lt;is-land on:visible&gt;
+  &lt;span id=&quot;footer-datetime&quot;&gt;&lt;/span&gt;
+  &lt;template data-island&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      const el = document.getElementById(&quot;footer-datetime&quot;);
+      const now = new Date();
+      el.textContent = new Intl.DateTimeFormat(undefined, {
+        dateStyle: &quot;medium&quot;, timeStyle: &quot;short&quot;
+      }).format(now);
+      el.setAttribute(&quot;datetime&quot;, now.toISOString());
+    &lt;/script&gt;
+  &lt;/template&gt;
+&lt;/is-land&gt;
+</code></pre>
+<p><strong>Try it:</strong> load the page, wait a minute, reload. The time changes every visit.</p>
+<p><strong>Why?</strong> <code>new Date()</code> runs <strong>in the visitor's browser</strong>, at the moment they load the page. It tells you &quot;now,&quot; not &quot;when the site was built.&quot; (Compare: a static site generator runs <em>once</em>, on your machine or in CI, and the output is frozen HTML.)</p>
+<blockquote>
+<p><strong>Key idea:</strong> To show a build-time fact, capture it <strong>at build time</strong> and write it into the HTML. Browser JavaScript can then <em>display</em> it, but can't <em>discover</em> it.</p>
+</blockquote>
+<hr>
+<h2>2. Site last built: a global data file</h2>
+<p>Eleventy runs any JavaScript file in your <code>_data</code> folder once per build and exposes the result to all templates.</p>
+<blockquote>
+<p><strong>Where does <code>_data</code> go?</strong> It is relative to your <strong>input directory</strong>, not your project root. If your config uses <code>dir: { input: &quot;_src&quot; }</code>, put the file at <code>_src/_data/build.js</code>. A file in the wrong place is silently ignored.</p>
+</blockquote>
+<p><strong><code>_src/_data/build.js</code></strong></p>
+<pre><code class="language-js">module.exports = {
+  timestamp: new Date().toISOString()
+};
+</code></pre>
+<p>Now <code>{{ build.timestamp }}</code> is available in any template. (Your project is CommonJS if <code>.eleventy.js</code> uses <code>require(...)</code>. If your <code>package.json</code> has <code>&quot;type&quot;: &quot;module&quot;</code>, use <code>export default { timestamp: new Date().toISOString() };</code> instead.)</p>
+<hr>
+<h2>3. Page last updated: git, via computed data</h2>
+<p>Each page has its own source file (<code>page.inputPath</code>). We can ask git when that file was last committed.</p>
+<p><strong>Try it in the terminal first.</strong> This is the exact command our code will run:</p>
+<pre><code>git log -1 --format=%cI -- _src/gallery.md
+</code></pre>
+<p>You should see an ISO date like <code>2026-11-11T18:13:35-05:00</code>. (<code>%cI</code> = committer date in strict ISO 8601, meaning when the commit was <em>made</em>, not when it was pushed.)</p>
+<p>Now wrap it in a data file. <code>eleventyComputed</code> is special: its functions run <em>once per page</em> and receive that page's data.</p>
+<p><strong><code>_src/_data/eleventyComputed.js</code></strong></p>
+<pre><code class="language-js">const { execFileSync } = require(&quot;node:child_process&quot;);
+
+module.exports = {
+  gitLastCommit: (data) =&gt; {
+    const file = data.page?.inputPath;
+    if (!file) return null;
+    try {
+      const out = execFileSync(
+        &quot;git&quot;,
+        [&quot;log&quot;, &quot;-1&quot;, &quot;--format=%cI&quot;, &quot;--&quot;, file],
+        { encoding: &quot;utf8&quot; }
+      ).trim();
+      if (!out) console.warn(`[gitLastCommit] no commits found for ${file}`);
+      return out || null;
+    } catch (e) {
+      console.warn(`[gitLastCommit] git failed for ${file}: ${e.message}`);
+      return null;
+    }
+  }
+};
+</code></pre>
+<p>Notes:</p>
+<ul>
+<li>The date is for the <strong>page being built</strong>, not the footer file. Committing <code>footer.html</code> doesn't change a page's date; committing that page's own source does.</li>
+<li>The <code>console.warn</code> lines are there so failures aren't silent. Watch your terminal when you build.</li>
+</ul>
+<hr>
+<h2>4. The footer template</h2>
+<pre><code class="language-html">&lt;strong&gt;Page last updated:&lt;/strong&gt;
+{% if gitLastCommit %}
+  &lt;time class=&quot;fmt-date&quot; datetime=&quot;{{ gitLastCommit }}&quot;&gt;{{ gitLastCommit }}&lt;/time&gt;
+{% else %}
+  &lt;em&gt;not yet committed&lt;/em&gt;
+{% endif %}
+&amp;middot;
+&lt;strong&gt;Site last built:&lt;/strong&gt;
+&lt;time class=&quot;fmt-date&quot; datetime=&quot;{{ build.timestamp }}&quot;&gt;{{ build.timestamp }}&lt;/time&gt;
+
+&lt;is-land on:visible&gt;
+  &lt;template data-island&gt;
+    &lt;script type=&quot;module&quot;&gt;
+      const fmt = new Intl.DateTimeFormat(undefined, {
+        dateStyle: &quot;medium&quot;,
+        timeStyle: &quot;short&quot;
+      });
+      document.querySelectorAll(&quot;time.fmt-date&quot;).forEach((el) =&gt; {
+        el.textContent = fmt.format(new Date(el.getAttribute(&quot;datetime&quot;)));
+      });
+    &lt;/script&gt;
+  &lt;/template&gt;
+&lt;/is-land&gt;
+</code></pre>
+<p>What each part does:</p>
+<ul>
+<li><strong><code>&lt;time datetime=&quot;...&quot;&gt;</code></strong> is the semantic HTML element for dates. The <code>datetime</code> attribute holds the machine-readable value.</li>
+<li><strong>The build writes the ISO strings</strong> into the HTML. Without JavaScript, readers see the raw ISO text. The page still works.</li>
+<li><strong>The island only formats.</strong> It reads each <code>datetime</code> attribute and rewrites the visible text in the <em>viewer's</em> locale. It adds no data of its own. This is <strong>progressive enhancement</strong>.</li>
+</ul>
+<hr>
+<h2>5. Troubleshooting</h2>
+<table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Likely cause</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;not yet committed&quot; on every page</td>
+<td><code>eleventyComputed.js</code> isn't being loaded. Check it's in <code>&lt;input dir&gt;/_data/</code>. Add <code>console.log(&quot;loaded&quot;)</code> at the top to confirm.</td>
+</tr>
+<tr>
+<td>&quot;Site last built&quot; is blank</td>
+<td>Same issue with <code>build.js</code>.</td>
+</tr>
+<tr>
+<td>Build crashes with <code>require is not defined</code> / <code>Unexpected token export</code></td>
+<td>CommonJS vs. ES module mismatch. Match your <code>package.json</code> <code>&quot;type&quot;</code>.</td>
+</tr>
+<tr>
+<td>A new page shows &quot;not yet committed&quot;</td>
+<td>The file has no commits yet. Commit it and rebuild.</td>
+</tr>
+<tr>
+<td>Every page shows the same date on GitHub Actions</td>
+<td>CI does a shallow clone. Add <code>fetch-depth: 0</code> to <code>actions/checkout</code>.</td>
+</tr>
+<tr>
+<td>An edited-but-uncommitted page shows its <em>previous</em> commit date</td>
+<td>Expected. Git only knows about commits.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Debugging habit:</strong> when something is silently ignored, make it loud (<code>console.log</code>) and test the underlying command by hand (<code>git log ...</code>) before blaming the framework.</p>
+<hr>
+<h2>Check your understanding</h2>
+<ol>
+<li>Why does <code>new Date()</code> in an island show the wrong &quot;build date&quot;?</li>
+<li>Which file does <code>gitLastCommit</code> look at: the footer layout or the page being built?</li>
+<li>If you edit a layout file and commit, which dates change?</li>
+<li>Why keep the island at all, if the build already wrote the dates into the HTML?</li>
+</ol>
+
+
+ <hr/>
+<div id="footer">
+    <div id="bannerImage"><a href="https://newtfire.org/courses/"><img id="newt"
+        src="img/animals/newt-mosaic4.png"
+        alt="NewtFire logo: a mosaic rendering of a firebelly newt"/></a></div>
+    <div id="title"><a href="https://newtfire.org">newtFire</a> <a href="https://github.com/newtfire">{GitHub}</a></div>
+    <div class="boilerplate"><span><strong>Maintained by: </strong> Elisa E. Beshero-Bondar
+        (eeb4 at psu.edu)   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" /></a><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a>
+
+    <strong>Page last updated:</strong>
+
+<time class="fmt-date" datetime="2026-11-12T14:49:29-05:00">2026-11-12T14:49:29-05:00</time>
+
+&middot;
+ <strong>Site last built:</strong>
+<time class="fmt-date" datetime="2026-11-12T19:52:30.681Z">2026-11-12T19:52:30.681Z</time>
+&middot;
+        <is-land on:visible>
+  <template data-island>
+    <script type="module">
+      const fmt = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+      document.querySelectorAll("time.fmt-date").forEach((el) => {
+        el.textContent = fmt.format(new Date(el.getAttribute("datetime")));
+      });
+    </script>
+  </template>
+</is-land>
+        <a href="https://newtfire.org/courses/firebellies.html">Powered by firebellies</a>.</span></div>
+</div>
+
+
+</body>
+</html>
