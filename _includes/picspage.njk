@@ -7,7 +7,7 @@ layout: base.njk
 <is-land on:visible>
   <div id="gallery" v-scope="{ active: 'none' }">
     <section class="pushButton">
-       <button @click="active = 'none'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
+       <button @click="active = 'all'" :class="{ on: active === 'all' }" :aria-pressed="active === 'all'">All</button>
       {% for topic, images in gallery %}
       <button @click="active = '{{ topic }}'" :class="{ on: active === '{{ topic }}' }" :aria-pressed="active === '{{ topic }}'">{{ topic }} ({{ images.length }})</button>
       {% endfor %}
@@ -19,8 +19,8 @@ layout: base.njk
       <div class="flex">
         {% for image in images %}
         <figure>
-          <img src="img/{{ topic }}/{{ image.file }}" alt="{{ image.alt or image.caption }}">
-          <figcaption>{{ image.caption }}</figcaption>
+          <img src="img/{{ topic }}/{{ image.file }}" alt="{{ image.caption or image.alt }}">
+          <figcaption>{{ image.alt }}</figcaption>
         </figure>
         {% endfor %}
       </div>
