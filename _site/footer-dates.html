@@ -10,7 +10,7 @@
            minimum-scale=1.0">
      <meta http-equiv="X-UA-Compatible"
            content="ie=edge">
-     <title>Last Built and Last Committed Dates in an 11ty Footer</title>
+     <title>Showing the Last-Built and Last-Committed Dates in an 11ty Footer</title>
      <link rel="stylesheet" href="css/style.css">
      <script type="module" src="js/is-land.js"></script>
      <!-- ebb: I needed to remove a leading slash from the js
@@ -22,11 +22,10 @@
 </nav>
 
 
- <h1>Last Built and Last Committed Dates in an 11ty Footer</h1>
+ <h1>Showing the Last-Built and Last-Committed Dates in an 11ty Footer</h1>
  <h2></h2>
 
-    <h1>Build-time vs. Run-time: Showing &quot;Last Updated&quot; Dates in an 11ty Footer</h1>
-<p><strong>What you'll build:</strong> a footer that displays two dates:</p>
+    <p><strong>What you'll build:</strong> a footer that displays two dates:</p>
 <ol>
 <li><strong>Page last updated</strong>: the date of the last git commit that touched <em>this page's</em> source file</li>
 <li><strong>Site last built</strong>: the date and time of the most recent Eleventy build</li>
@@ -191,11 +190,11 @@ module.exports = {
 
     <strong>Page last updated:</strong>
 
-  <em>not yet committed</em>
+<time class="fmt-date" datetime="2026-11-12T14:49:29-05:00">2026-11-12T14:49:29-05:00</time>
 
 &middot;
  <strong>Site last built:</strong>
-<time class="fmt-date" datetime="2026-11-12T19:45:00.810Z">2026-11-12T19:45:00.810Z</time>
+<time class="fmt-date" datetime="2026-11-12T19:51:57.915Z">2026-11-12T19:51:57.915Z</time>
 &middot;
         <is-land on:visible>
   <template data-island>
