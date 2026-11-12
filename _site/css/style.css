@@ -34,6 +34,10 @@ div.flex img {
     max-width:200px;
     width:80%;}
 
+figcaption {font-size:smaller;
+font-style:italic;
+color: darkgreen}
+
 div#footer {
     width:80%;
     margin:auto;
