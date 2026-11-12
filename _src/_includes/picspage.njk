@@ -12,6 +12,7 @@ layout: base.njk
       <button @click="active = '{{ topic }}'" :class="{ on: active === '{{ topic }}' }" :aria-pressed="active === '{{ topic }}'">{{ topic }}</button>
       {% endfor %}
     </section>
+    <p aria-live="polite">Showing: <span v-text="active"></span></p>
     {% for topic, images in imagesMeta %}
     <section class="gallery {{ topic }}" v-show="active === 'all' || active === '{{ topic }}'">
       <h3>{{ topic }}</h3>
