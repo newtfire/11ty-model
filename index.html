@@ -38,28 +38,29 @@
         alt="NewtFire logo: a mosaic rendering of a firebelly newt"/></a></div>
     <div id="title"><a href="https://newtfire.org">newtFire</a> <a href="https://github.com/newtfire">{GitHub}</a></div>
     <div class="boilerplate"><span><strong>Maintained by: </strong> Elisa E. Beshero-Bondar
-        (eeb4 at psu.edu)   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" /></a><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a> <strong>Last modified:
-        </strong>
-         <is-land on:visible>
-    <!-- Fallback text shown before JS runs or if JS is disabled -->
-    <span id="footer-datetime"></span>
+        (eeb4 at psu.edu)   <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png" /></a><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"></a>
 
-    <template data-island>
-      <script type="module">
-        const el = document.getElementById("footer-datetime");
-        const now = new Date();
+    <strong>Page last updated:</strong>
 
-        // Format date and time cleanly using the locale set on my computer:
-        el.textContent = new Intl.DateTimeFormat(undefined, {
-          dateStyle: "medium",
-          timeStyle: "short"
-        }).format(now);
+<time class="fmt-date" datetime="2026-11-05T20:08:50-05:00">2026-11-05T20:08:50-05:00</time>
 
-        // Set the semantic datetime attribute
-        el.setAttribute("datetime", now.toISOString());
-      </script>
-    </template>
-  </is-land>
+&middot;
+ <strong>Site last built:</strong>
+<time class="fmt-date" datetime="2026-11-12T19:39:14.176Z">2026-11-12T19:39:14.176Z</time>
+&middot;
+        <is-land on:visible>
+  <template data-island>
+    <script type="module">
+      const fmt = new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short"
+      });
+      document.querySelectorAll("time.fmt-date").forEach((el) => {
+        el.textContent = fmt.format(new Date(el.getAttribute("datetime")));
+      });
+    </script>
+  </template>
+</is-land>
         <a href="https://newtfire.org/courses/firebellies.html">Powered by firebellies</a>.</span></div>
 </div>
 
